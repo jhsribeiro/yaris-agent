@@ -5,6 +5,7 @@
 [![LangChain](https://img.shields.io/badge/LangChain-0.3-1C3C3C.svg?logo=langchain&logoColor=white)](https://www.langchain.com/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-Stateful_RAG-0055FF.svg)](https://langchain-ai.github.io/langgraph/)
 [![ChromaDB](https://img.shields.io/badge/VectorDatabase-ChromaDB-yellow.svg)](https://www.trychroma.com/)
+[![Deploy](https://img.shields.io/badge/Deploy-Streamlit_Cloud-FF4B4B.svg?logo=streamlit&logoColor=white)](https://yaris-agent.streamlit.app)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -19,11 +20,14 @@
 ## Sumário
 
 - [Visão Geral](#visão-geral)
+- [Sobre o Desafio](#sobre-o-desafio)
+- [Principais Funcionalidades](#principais-funcionalidades)
 - [Pacotes Utilizados](#pacotes-utilizados)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Diagrama de Arquitetura do Sistema](#diagrama-de-arquitetura-do-sistema)
 - [Documentação da Base de Conhecimento](#documentação-da-base-de-conhecimento)
 - [Configuração do Ambiente](#configuração-do-ambiente)
+- [Licença](#licença)
 
 ---
 
@@ -33,15 +37,57 @@ A **Yara Ltda.** foi criada originalmente no âmbito acadêmico como o **Projeto
 
 Como evolução dessa iniciativa no **Desafio Final Alura Agent (Oracle + Alura ONE)**, foi desenvolvido o **YARIS** (*Yara Intelligent System*), um assistente virtual corporativo de Inteligência Artificial para a Yara Ltda. O sistema centraliza, estrutura e responde instantaneamente a dúvidas dos colaboradores sobre processos operacionais (SOPs), manuais de RH, políticas de compliance, LGPD, diretrizes trabalhistas, faturamento e chamados de TI, eliminando o tempo desperdiçado na busca manual de arquivos.
 
+> 🚀 **Aplicação em Produção (Deploy):**  
+> Acesse o assistente interativo online: [![Acesse a Aplicação](https://img.shields.io/badge/🌐_Acesse_o_YARIS_Online-Streamlit_Cloud-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://yaris-agent.streamlit.app)  
+> URL direta: [**https://yaris-agent.streamlit.app**](https://yaris-agent.streamlit.app)
+
 **Domínio de Aplicação:** Gestão do Conhecimento Corporativo & Assistência Virtual Inteligente via RAG (Retrieval-Augmented Generation).  
 **Público-Alvo:** Colaboradores, Gestores e Liderança da Yara Ltda.
 
-**Funcionalidades de Alto Nível:**
-* **Busca Semântica Filtrada:** Filtragem vetorial por setor corporativo (*Recursos Humanos*, *Financeiro*, *Compliance & LGPD*, *Facilities*, *TI & Chamados*, *SAC*, etc.).
-* **Suporte Flexível a LLMs (Nuvem ou 100% Local):** Permite alternar dinamicamente entre **Google Gemini** (`gemini-flash-latest`) na nuvem e modelos locais via **Ollama** (`llama3:8b`, `gemma4:latest`, `gemma:2b`) através do painel lateral da interface web ou por variáveis no `.env`.
-* **Suporte Duplo a Embeddings:** Execução 100% offline via **Ollama Embeddings** (`snowflake-arctic-embed2:latest`) sem limites de cota ou via **Google Gemini Embeddings** (`models/gemini-embedding-001`).
-* **Conformidade Legal & Regras Estritas de Negócio:** Aplicação obrigatória do termo corporativo **"responsabilidade ambiental e social"** (sendo vedado o uso de "sustentabilidade" para a YARA).
-* **Tom Corporativo Formal:** Respostas estruturadas sem emojis, mantendo sobriedade profissional e rastreabilidade total das fontes consultadas no ChromaDB.
+---
+
+## Sobre o Desafio
+
+Este projeto foi desenvolvido como a entrega do **Desafio Final da Trilha de Inteligência Artificial** do programa **Oracle Next Education (ONE)** em parceria com a **Alura**.
+
+### Objetivos do Desafio
+- **Aplicação Prática de Agentes de IA**: Criar um agente inteligente corporativo capaz de resolver problemas reais de negócio utilizando técnicas modernas de **RAG (Retrieval-Augmented Generation)**.
+- **Orquestração Stateful**: Implementar um fluxo de execução baseado em grafos de estado com **LangGraph**, permitindo tomar decisões condicionais, tratar contextos vazios e formatar respostas com precisão.
+- **Armazenamento e Recuperação Vetorial**: Estruturar e indexar documentos corporativos (PDFs e Markdown) em um banco de dados vetorial (**ChromaDB**), garantindo busca semântica relevante e filtragem por metadados.
+- **Flexibilidade e Privacidade**: Oferecer suporte tanto a provedores de LLM baseados em nuvem (Google Gemini) quanto a execuções 100% locais e privadas via Ollama.
+- **Interface e Experiência do Usuário (UI/UX)**: Construir um painel interativo e intuitivo em **Streamlit** com histórico de bate-papo, seletores de setor e alternância de modelos em tempo de execução.
+
+---
+
+## Principais Funcionalidades
+
+- 🧠 **Motor RAG com LangGraph (Stateful Agent)**:
+  - Orquestração de estado inteligente que avalia a presença de documentos relevantes antes de responder.
+  - Tratamento gracioso para dúvidas sem correspondência na base de conhecimento, direcionando o colaborador aos canais corretos sem alucinações.
+
+- 🏢 **Busca Vetorial Filtrada por Setor Corporativo**:
+  - Indexação inteligente no ChromaDB categorizando automaticamente cada documento por departamento (*Recursos Humanos*, *Financeiro*, *Compliance & LGPD*, *Facilities & Suprimentos*, *TI & Chamados*, *SAC*, *Operações & Logística*, etc.).
+  - Permite ao usuário filtrar suas pesquisas por setor específico ou realizar busca ampla em toda a empresa.
+
+- 🔄 **Arquitetura Híbrida e Multiprovedor (Nuvem vs 100% Local)**:
+  - **Google Gemini**: Respostas ultra-rápidas via API Gemini (`gemini-2.5-flash`).
+  - **Ollama Local**: Execução 100% privada e offline utilizando modelos como `llama3:8b` ou `gemma:2b`.
+  - **Embeddings Flexíveis**: Suporte para `gemini-embedding-001` e `snowflake-arctic-embed2:latest`.
+
+- ⚖️ **Compliance & Diretrizes Corporativas Estritas**:
+  - Aplicação rigorosa das regras de comunicação da Yara Ltda.
+  - Substituição obrigatória do termo "sustentabilidade" por **"responsabilidade ambiental e social"** quando referente às ações da própria Yara.
+  - Tom formal, técnico e corporativo, livre de emojis ou informalismos.
+
+- 💻 **Interface Web Obsidian Dark Mode (Streamlit)**:
+  - Design premium responsivo em modo escuro.
+  - Seleção dinâmica de provedores e modelos no painel lateral.
+  - Exibição de metadados, fontes consultadas e histórico de conversação mantido na sessão.
+
+- 🛡️ **Resiliência e Tratamento de Exceções**:
+  - Manipulação inteligente de cota de API (Erro 429), com tentativas resilientes e avisos amigáveis para o usuário.
+  - Diagnóstico imediato no painel web caso o serviço local do Ollama ou modelo selecionado não esteja em execução.
+
 
 
 ---
