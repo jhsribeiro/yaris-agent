@@ -177,7 +177,7 @@ app_graph = construir_grafo()
 
 ### 2.5. Visualização Automática do Grafo ([`scripts/visualizar_grafo.py`](file:///c:/Users/jhiov/dev/yaris-agent/scripts/visualizar_grafo.py))
 
-O script [`scripts/visualizar_grafo.py`](file:///c:/Users/jhiov/dev/yaris-agent/scripts/visualizar_grafo.py) exporta o diagrama visual do fluxo para `docs/fluxo_langgraph.png`.
+O script [`scripts/visualizar_grafo.py`](file:///c:/Users/jhiov/dev/yaris-agent/scripts/visualizar_grafo.py) exporta o diagrama visual do fluxo para `docs/assets/fluxo_langgraph.png`.
 
 ---
 

@@ -133,7 +133,7 @@ sudo systemctl status yaris-agent
 ```
 **Saída Esperada:** `active (running)`.
 
-![Status do Serviço yaris-agent no Systemd Linux](evidencia_oci_systemd.png)
+![Status do Serviço yaris-agent no Systemd Linux](assets/evidencia_oci_systemd.png)
 
 ---
 
@@ -144,7 +144,7 @@ curl -I http://localhost:8501
 ```
 **Saída Esperada:** `HTTP/1.1 200 OK`.
 
-![Validação da Porta 8501 e Resposta HTTP 200 OK](evidencia_oci_execucao.png)
+![Validação da Porta 8501 e Resposta HTTP 200 OK](assets/evidencia_oci_execucao.png)
 
 ---
 
@@ -154,7 +154,7 @@ curl -I http://localhost:8501
 sudo journalctl -u yaris-agent -n 30 --no-pager
 ```
 
-![Logs do Serviço YARIS no Systemd em Tempo Real](evidencia_oci_logs.png)
+![Logs do Serviço YARIS no Systemd em Tempo Real](assets/evidencia_oci_logs.png)
 
 ---
 
@@ -164,14 +164,14 @@ sudo journalctl -u yaris-agent -n 30 --no-pager
 ls -la chroma_db/
 ```
 
-![Persistência de Dados e Vetores no ChromaDB](evidencia_oci_chromadb.png)
+![Persistência de Dados e Vetores no ChromaDB](assets/evidencia_oci_chromadb.png)
 
 ---
 
 ### Evidência 5: Interface Web do YARIS AI Agent no OCI (Navegador)
 **Endereço:** `http://163.176.89.50:8501`
 
-![Interface Web do YARIS AI Agent no Oracle Cloud Infrastructure (OCI)](evidencia_oci.png)
+![Interface Web do YARIS AI Agent no Oracle Cloud Infrastructure (OCI)](assets/evidencia_oci.png)
 
 ---
 
