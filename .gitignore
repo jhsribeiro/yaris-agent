@@ -1,0 +1,35 @@
+# Configurações e Chaves
+.env
+.env.local
+
+# Banco de dados vetorial local e caches
+chroma_db/
+scratch/
+
+# Ambientes Virtuais Python
+.venv/
+venv/
+ENV/
+env/
+
+# Python Cache e Compilação
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDEs e Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# Pasta de anotações internas e configurações de agentes
+notes/
+notes
+.agents/
+.agents
