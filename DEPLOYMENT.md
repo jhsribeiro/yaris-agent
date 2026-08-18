@@ -1,32 +1,34 @@
-# Guia de Deploy & Evidências - YARIS AI Agent
+# Guia de Deploy & Evidências - YARIS AI Agent (Deploy Nativo Linux / Systemd)
 
-Este documento contém o passo a passo detalhado para o deploy da aplicação **YARIS AI Agent** utilizando **Docker** e **Docker Compose** em uma máquina virtual (VM) Ubuntu, além dos procedimentos para geração das evidências de implantação.
+Este documento contém o passo a passo detalhado para o deploy da aplicação **YARIS AI Agent** diretamente em uma máquina virtual (VM) Ubuntu Linux utilizando **Python Virtual Environment (`venv`)** e gerenciamento de serviço via **`systemd`**, além dos procedimentos de coleta de evidências.
 
 ---
 
 ## 📌 1. Visão Geral da Arquitetura de Deploy
 
-A aplicação é composta por:
+A aplicação é implantada diretamente no sistema operacional da VM Ubuntu:
 - **Interface & Orquestrador:** Streamlit (Porta `8501`) + LangChain / LangGraph.
-- **Banco de Dados Vetorial:** ChromaDB (Persistido no volume `./chroma_db`).
-- **Pipeline de Ingestão:** Script `pipeline_ingestao.py` executado via container para processar os documentos da pasta `./docs`.
+- **Ambiente Virtual Python:** Isolado em `~/yaris-agent/.venv`.
+- **Gerenciamento de Processo:** Serviço Linux `systemd` (`yaris-agent.service`) para execução contínua 24/7.
+- **Banco Vetorial:** ChromaDB persistido na pasta `./chroma_db`.
 - **Provedor de LLM/Embeddings:** Google Gemini AI Studio (configurado via `.env`).
 
 ```
- +-------------------------------------------------------+
- |                     Ubuntu VM                         |
- |                                                       |
- |  +-------------------------------------------------+  |
- |  |            Docker Container (Streamlit)         |  |
- |  |  - Python 3.12                                  |  |
- |  |  - App: app.py                                  |  |
- |  |  - Ingestão: pipeline_ingestao.py               |  |
- |  +-------------------------------------------------+  |
- |        | (Volume Persistente)                         |
- |        v                                              |
- |  [ ./chroma_db ]                                      |
- |                                                       |
- +-------------------------------------------------------+
+ +----------------------------------------------------------------+
+ |                         Ubuntu VM                              |
+ |                                                                |
+ |  +----------------------------------------------------------+  |
+ |  |            Ambiente Virtual Python (.venv)               |  |
+ |  |  - Python 3.12                                           |  |
+ |  |  - Streamlit App: app.py                                 |  |
+ |  |  - Ingestão: pipeline_ingestao.py                        |  |
+ |  +----------------------------------------------------------+  |
+ |        ^                                                       |
+ |        | (Controlado por Systemd: yaris-agent.service)         |
+ |        v                                                       |
+ |  [ ./chroma_db ]                                               |
+ |                                                                |
+ +----------------------------------------------------------------+
         | (Porta 8501)
         v
  [ Usuários / Internet ]
@@ -36,38 +38,39 @@ A aplicação é composta por:
 
 ## 🚀 2. Pré-requisitos na VM Ubuntu
 
-No terminal SSH da VM (`ubuntu@vm1-yaris-agent-vnic1`), certifique-se de que os pacotes essenciais e o Docker estão instalados:
+No terminal SSH da VM (`ubuntu@vm1-yaris-agent-vnic1`), certifique-se de que os pacotes básicos estão instalados:
 
 ```bash
-# 1. Atualizar o sistema
-sudo apt update && sudo apt upgrade -y
-
-# 2. Instalar Docker e Docker Compose Plugin
-sudo apt install docker.io docker-buildx-plugin docker-compose-v2 git -y
-
-# 3. Adicionar o usuário ao grupo Docker
-sudo usermod -aG docker $USER
-newgrp docker
+sudo apt update
+sudo apt install python3-pip python3-venv git -y
 ```
 
 ---
 
-## 🛠️ 3. Passo a Passo do Deploy
+## 🛠️ 3. Passo a Passo do Deploy Nativo
 
 ### Passo 3.1: Obter o Código
 ```bash
-git clone https://github.com/jhsribeiro/yaris-agent.git
-cd yaris-agent
+cd ~/yaris-agent
+git pull
 ```
 
-### Passo 3.2: Configurar o Arquivo de Ambiente (`.env`)
-Crie o arquivo `.env` na raiz do projeto:
+### Passo 3.2: Criar e Ativar o Ambiente Virtual
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+### Passo 3.3: Configurar o Arquivo de Ambiente (`.env`)
+Crie ou edite o arquivo `.env` na raiz do projeto:
 
 ```bash
 nano .env
 ```
 
-Insira suas credenciais:
+Conteúdo recomendado:
 ```env
 GOOGLE_API_KEY=sua_chave_api_aqui
 EMBEDDING_PROVIDER=google
@@ -76,91 +79,95 @@ LLM_PROVIDER=google
 LLM_MODEL=gemini-2.5-flash
 ```
 
-### Passo 3.3: Iniciar os Containers (Build & Run)
+### Passo 3.4: Executar a Ingestão de Dados no ChromaDB
 ```bash
-docker compose up -d --build
+python pipeline_ingestao.py
 ```
 
 ---
 
-## 📂 4. Ingestão de Dados no Banco Vetorial
+## ⚙️ 4. Configurar Execução 24/7 com Systemd
 
-Após subir o container, execute o pipeline de ingestão de documentos em background:
+Para que a aplicação rode continuamente e inicie automaticamente caso o servidor seja reiniciado:
 
+### 1. Criar o arquivo de serviço:
 ```bash
-docker compose exec yaris-agent python pipeline_ingestao.py
+sudo nano /etc/systemd/system/yaris-agent.service
+```
+
+### 2. Cole o conteúdo abaixo:
+```ini
+[Unit]
+Description=Yaris AI Agent Streamlit Service
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/yaris-agent
+ExecStart=/home/ubuntu/yaris-agent/.venv/bin/streamlit run app.py --server.port 8501 --server.address 0.0.0.0
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### 3. Ativar e iniciar o serviço:
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable yaris-agent
+sudo systemctl start yaris-agent
+sudo systemctl status yaris-agent
 ```
 
 ---
 
 ## 🔍 5. Checklist de Validação & Evidências de Deploy
 
-Para comprovar que o deploy foi realizado com sucesso, execute e salve a saída dos seguintes comandos de verificação:
+Execute e capture a saída dos seguintes comandos para compor o relatório de evidências:
 
-### Evidência 1: Status do Container Docker
+### Evidência 1: Status do Serviço Systemd
 **Comando:**
 ```bash
-docker compose ps
+sudo systemctl status yaris-agent
 ```
-**Saída Esperada:**
-O container `yaris-agent` deve estar no estado `Up` / `running` exposto na porta `0.0.0.0:8501->8501/tcp`.
+**Saída Esperada:** `active (running)`.
 
 ---
 
-### Evidência 2: Logs da Aplicação
-**Comando:**
-```bash
-docker compose logs --tail=50
-```
-**Saída Esperada:**
-```
-yaris-agent  |  You can now view your Streamlit app in your browser.
-yaris-agent  |  Local URL: http://localhost:8501
-yaris-agent  |  Network URL: http://0.0.0.0:8501
-```
-
----
-
-### Evidência 3: Teste de Resposta HTTP Local (Curl)
+### Evidência 2: Processo em Execução & Porta 8501
 **Comando:**
 ```bash
 curl -I http://localhost:8501
 ```
-**Saída Esperada:**
-Retorno com cabeçalho `HTTP/1.1 200 OK`.
+**Saída Esperada:** `HTTP/1.1 200 OK`.
 
 ---
 
-### Evidência 4: Verificação da Persistência do ChromaDB
+### Evidência 3: Logs do Serviço em Tempo Real
+**Comando:**
+```bash
+sudo journalctl -u yaris-agent -n 30 --no-pager
+```
+
+---
+
+### Evidência 4: Verificação dos Dados Persistidos (ChromaDB)
 **Comando:**
 ```bash
 ls -la chroma_db/
 ```
-**Saída Esperada:**
-Diretório contendo o arquivo `chroma.sqlite3` e as pastas de índice vetorial ativas.
 
 ---
 
 ## 🛡️ 6. Liberação de Firewall (Porta 8501)
 
-1. **Firewall da Máquina (UFW):**
+1. **Firewall local (UFW):**
    ```bash
    sudo ufw allow 8501/tcp
    ```
-2. **Oracle Cloud / Cloud Provider Security Rules:**
+2. **Oracle Cloud Security Rules:**
    - Adicionar regra de entrada (**Ingress Rule**):
-     - **Source CIDR:** `0.0.0.0/0`
-     - **IP Protocol:** `TCP`
-     - **Destination Port Range:** `8501`
-
----
-
-## 🔄 7. Comandos de Manutenção
-
-- **Parar aplicação:** `docker compose down`
-- **Reiniciar aplicação:** `docker compose restart`
-- **Atualizar código e reiniciar:**
-  ```bash
-  git pull
-  docker compose up -d --build
-  ```
+     - **Protocolo:** TCP
+     - **Porta:** 8501
+     - **Origem:** 0.0.0.0/0
