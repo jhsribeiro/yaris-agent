@@ -14,11 +14,11 @@ from src.database.connection import get_vectorstore
 
 def get_sector_from_filename(filename: str) -> str:
     """
-    Classifica o setor corporativo do documento com base na identificação dos arquivos da pasta docs/ e legados.
+    Classifica o setor corporativo do documento com base na identificação dos arquivos da pasta data/ e legados.
     Mapeia exatamente com as opções de filtros da interface (SETORES_CHIPS).
     """
     fn = os.path.basename(filename).lower()
-    
+
     # 1. Jurídico & Contratos (Análise de contratos, minutas, NDAs)
     if any(k in fn for k in ["pol-006", "16_juridico", "contrat", "juridico"]):
         return "Jurídico & Contratos"
@@ -74,8 +74,8 @@ def executar_ingestao():
     """
     print("Iniciando o pipeline de ingestão de dados...")
     
-    docs_dir = os.path.join(root_dir, "docs")
-    target_dirs = [docs_dir]
+    data_dir = os.path.join(root_dir, "data")
+    target_dirs = [data_dir]
     documentos = []
     
     for ddir in target_dirs:

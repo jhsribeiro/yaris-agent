@@ -50,7 +50,7 @@ graph TD
 
     subgraph VectorEngine [Camada de Ingestão & Recuperação Vetorial]
         Ingestion[scripts/pipeline_ingestao.py]
-        Docs[(Documentos Markdown & PDF em /docs)]
+        Docs[(Documentos Markdown & PDF em /data)]
         TextSplitter[RecursiveCharacterTextSplitter]
         EmbeddingProvider[Provedor: Gemini 3.072d / Ollama 1.024d]
         ChromaStore[(ChromaDB Persistent Store ./chroma_db)]
@@ -177,7 +177,7 @@ app_graph = construir_grafo()
 
 ### 2.5. Visualização Automática do Grafo ([`scripts/visualizar_grafo.py`](file:///c:/Users/jhiov/dev/yaris-agent/scripts/visualizar_grafo.py))
 
-O script [`scripts/visualizar_grafo.py`](file:///c:/Users/jhiov/dev/yaris-agent/scripts/visualizar_grafo.py) exporta o diagrama visual do fluxo para `assets/fluxo_langgraph.png`.
+O script [`scripts/visualizar_grafo.py`](file:///c:/Users/jhiov/dev/yaris-agent/scripts/visualizar_grafo.py) exporta o diagrama visual do fluxo para `docs/fluxo_langgraph.png`.
 
 ---
 
@@ -187,7 +187,7 @@ O script [`scripts/pipeline_ingestao.py`](file:///c:/Users/jhiov/dev/yaris-agent
 
 ### 3.1. Classificação Dinâmica dos 11 Setores
 
-A função `get_sector_from_filename` analisa o nome e prefixo dos arquivos na pasta [`docs/`](file:///c:/Users/jhiov/dev/yaris-agent/docs) para associar cada documento ao seu setor corporativo:
+A função `get_sector_from_filename` analisa o nome e prefixo dos arquivos na pasta [`data/`](file:///c:/Users/jhiov/dev/yaris-agent/data) para associar cada documento ao seu setor corporativo:
 
 ```python
 def get_sector_from_filename(filename: str) -> str:

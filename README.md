@@ -114,31 +114,50 @@ Lista das principais dependências Python utilizadas no projeto.
 
 ## Estrutura do Projeto
 
-A arquitetura do projeto é modular e separada entre o frontend (Streamlit), o pipeline de ingestão vetorial, a base de conhecimento estruturada (`docs/`) e a lógica RAG (`src/`).
+A arquitetura do projeto é modular e separada entre o frontend (Streamlit), o pipeline de ingestão vetorial, a base de dados estruturada (`data/`), a documentação técnica (`docs/`), os testes automatizados (`tests/`) e a lógica RAG (`src/`).
 
 ```
-alura-agent/
+yaris-agent/
 ├── assets/
+│   ├── evidencia_oci.png
+│   ├── evidencia_oci_2.png
+│   ├── evidencia_oci_3.png
 │   ├── fluxo_langgraph.png
 │   └── logo_yaris.png
-├── docs/
+├── data/
 │   ├── 01_processos_operacionais_sops/
 │   │   ├── SOP-001_Atendimento_e_Venda_Presencial.md
 │   │   ├── SOP-002_Operacao_Caixa_e_Emissao_NF_Omie.md
 │   │   ├── SOP-003_Logistica_Reversa_e_Trocas.md
 │   │   ├── SOP-004_Gestao_Estoque_e_Contingencia_Atelie_Almada.md
-│   │   └── SOP-005_Solicitacao_de_Materiais_de_Escritorio_e_Papelaria.md
+│   │   ├── SOP-005_Solicitacao_de_Materiais_de_Escritorio_e_Papelaria.md
+│   │   ├── SOP-006_Rastreamento_de_Pecas_e_Fornecedores_Florent.md
+│   │   └── SOP-007_Suprimentos_e_Sacolas_Loja_Conceito.md
 │   ├── 02_politicas_e_compliance/
 │   │   ├── POL-001_Politica_de_Moda_Sustentavel_e_Fornecedores.md
 │   │   ├── POL-002_Gestao_Social_e_Impacto_Comunitario.md
 │   │   ├── POL-003_Direitos_Trabalhistas_e_Conduta.md
 │   │   ├── POL-004_Politica_de_Compliance_LGPD_e_Anticorrupcao.md
-│   │   └── POL-005_Politica_de_Beneficios_e_Banco_de_Horas.md
+│   │   ├── POL-005_Politica_de_Beneficios_e_Banco_de_Horas.md
+│   │   ├── POL-006_Juridico_Contratos_e_NDAs.md
+│   │   ├── POL-007_Alcadas_Comerciais_e_Comissoes.md
+│   │   └── POL-008_Politicas_Internas_e_Reembolso.md
 │   └── 03_guias_e_faqs/
+│       ├── FAQ-001_Duvidas_Frequentes_Vendas_e_Produtos.md
+│       ├── FAQ-002_Duvidas_Operacionais_e_Sistemas.md
+│       ├── FAQ-003_Chamados_TI_SLAs_e_Suprimentos_Loja.md
 │       ├── GUI-001_Onboarding_Novos_Colaboradores.md
 │       ├── GUI-002_Diretorio_Contatos_Ramais_Emails.md
-│       ├── FAQ-001_Duvidas_Frequentes_Vendas_e_Produtos.md
-│       └── FAQ-002_Duvidas_Operacionais_e_Sistemas.md
+│       └── GUI-003_Atendimento_SAC_e_Ouvidoria.md
+├── docs/
+│   ├── DEPLOY_OCI.md
+│   ├── DOCUMENTACAO_TECNICA.md
+│   ├── evidencia_oci.png
+│   ├── evidencia_oci_chromadb.png
+│   ├── evidencia_oci_execucao.png
+│   ├── evidencia_oci_logs.png
+│   ├── evidencia_oci_systemd.png
+│   └── fluxo_langgraph.png
 ├── scripts/
 │   ├── pipeline_ingestao.py
 │   └── visualizar_grafo.py
@@ -152,6 +171,13 @@ alura-agent/
 │   │   ├── prompts.py
 │   │   └── state.py
 │   └── config.py
+├── tests/
+│   ├── test_database_aliases.py
+│   ├── test_graph_build.py
+│   ├── test_graph_edges.py
+│   ├── test_nodes.py
+│   ├── test_prompts_and_compliance.py
+│   └── test_sector_classification.py
 ├── .env
 ├── .gitignore
 ├── app.py
@@ -294,7 +320,7 @@ Acesse a aplicação no seu navegador no endereço: `http://localhost:8501`. Na 
 ```bash
 pytest tests/
 ```
-Para mais detalhes sobre a suíte de 24 testes unitários e de integração, consulte a [Documentação Técnica](file:///c:/Users/jhiov/dev/yaris-agent/DOCUMENTACAO_TECNICA.md#8-su%C3%ADte-de-testes-automatizados-pytest).
+Para mais detalhes sobre a suíte de 24 testes unitários e de integração, consulte a [Documentação Técnica](docs/DOCUMENTACAO_TECNICA.md#8-su%C3%ADte-de-testes-automatizados-pytest).
 
 ---
 
@@ -306,7 +332,7 @@ A aplicação **YARIS AI Agent** foi implantada com sucesso e está operacional 
 * **Ambiente de Hospedagem:** Instância OCI Compute (Ubuntu Linux)
 * **Gerenciamento do Serviço:** Execução 24/7 via `systemd` (`yaris-agent.service`)
 
-![Evidência da Interface Web do YARIS AI Agent no OCI](assets/evidencia_oci.png)
+![Evidência da Interface Web do YARIS AI Agent no OCI](docs/evidencia_oci.png)
 
 ---
 

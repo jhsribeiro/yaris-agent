@@ -1,4 +1,4 @@
-# Guia de Deploy & Evidências - YARIS AI Agent (Deploy Nativo Linux / Systemd)
+# Guia de Deploy & Evidências - YARIS AI Agent 
 
 Este documento contém o passo a passo detalhado para o deploy da aplicação **YARIS AI Agent** diretamente em uma máquina virtual (VM) Ubuntu Linux utilizando **Python Virtual Environment (`venv`)** e gerenciamento de serviço via **`systemd`**, além dos procedimentos de coleta de evidências.
 
@@ -126,8 +126,6 @@ sudo systemctl status yaris-agent
 
 Execute e capture a saída dos seguintes comandos para compor o relatório de evidências:
 
-![alt text](image-3.png)
-
 ### Evidência 1: Status do Serviço Systemd
 **Comando:**
 ```bash
@@ -135,7 +133,7 @@ sudo systemctl status yaris-agent
 ```
 **Saída Esperada:** `active (running)`.
 
-![alt text](image.png)
+![Status do Serviço yaris-agent no Systemd Linux](evidencia_oci_systemd.png)
 
 ---
 
@@ -146,6 +144,8 @@ curl -I http://localhost:8501
 ```
 **Saída Esperada:** `HTTP/1.1 200 OK`.
 
+![Validação da Porta 8501 e Resposta HTTP 200 OK](evidencia_oci_execucao.png)
+
 ---
 
 ### Evidência 3: Logs do Serviço em Tempo Real
@@ -153,7 +153,9 @@ curl -I http://localhost:8501
 ```bash
 sudo journalctl -u yaris-agent -n 30 --no-pager
 ```
-![alt text](image-1.png)
+
+![Logs do Serviço YARIS no Systemd em Tempo Real](evidencia_oci_logs.png)
+
 ---
 
 ### Evidência 4: Verificação dos Dados Persistidos (ChromaDB)
@@ -161,13 +163,15 @@ sudo journalctl -u yaris-agent -n 30 --no-pager
 ```bash
 ls -la chroma_db/
 ```
-![alt text](image-2.png)
+
+![Persistência de Dados e Vetores no ChromaDB](evidencia_oci_chromadb.png)
+
 ---
 
 ### Evidência 5: Interface Web do YARIS AI Agent no OCI (Navegador)
 **Endereço:** `http://163.176.89.50:8501`
 
-![Interface Web do YARIS AI Agent no Oracle Cloud](assets/evidencia_oci.png)
+![Interface Web do YARIS AI Agent no Oracle Cloud Infrastructure (OCI)](evidencia_oci.png)
 
 ---
 
