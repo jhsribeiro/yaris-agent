@@ -72,7 +72,7 @@ A arquitetura do projeto é modular e separada entre o frontend (Streamlit), o p
 ```
 alura-agent/
 ├── assets/
-│   ├── logo_yara.png
+│   ├── fluxo_langgraph.png
 │   └── logo_yaris.png
 ├── docs/
 │   ├── 01_processos_operacionais_sops/
@@ -92,19 +92,22 @@ alura-agent/
 │       ├── GUI-002_Diretorio_Contatos_Ramais_Emails.md
 │       ├── FAQ-001_Duvidas_Frequentes_Vendas_e_Produtos.md
 │       └── FAQ-002_Duvidas_Operacionais_e_Sistemas.md
+├── scripts/
+│   ├── pipeline_ingestao.py
+│   └── visualizar_grafo.py
 ├── src/
 │   ├── database/
 │   │   └── connection.py
 │   ├── graph/
+│   │   ├── build.py
 │   │   ├── edges.py
 │   │   ├── nodes.py
+│   │   ├── prompts.py
 │   │   └── state.py
-│   ├── config.py
-│   └── prompts.py
+│   └── config.py
 ├── .env
 ├── .gitignore
 ├── app.py
-├── pipeline_ingestao.py
 ├── requirements.txt
 └── README.md
 ```
@@ -185,8 +188,8 @@ Siga os passos abaixo para configurar o ambiente localmente.
 
 ### 1. Clonar o Repositório
 ```bash
-git clone https://github.com/jhsribeiro/alura-agent.git
-cd alura-agent
+git clone https://github.com/jhsribeiro/yaris-agent.git
+cd yaris-agent
 ```
 
 ### 2. Criar e Ativar o Ambiente Virtual
@@ -204,15 +207,25 @@ pip install -r requirements.txt
 ```
 
 ### 4. Configurar as Variáveis de Ambiente
-Crie um arquivo `.env` na raiz do projeto com as configurações da API do Gemini e/ou Ollama Local:
+Crie um arquivo `.env` na raiz do projeto (ou copie do `.env.example`) com as configurações da API do Gemini e/ou Ollama Local:
 ```env
-# Chave da API do Google Gemini (para uso do provedor Gemini na nuvem)
-GOOGLE_API_KEY=sua_chave_aqui
+# Chave de API do Google AI Studio (necessária se usar o provedor google)
+GOOGLE_API_KEY=sua_chave_api_aqui
 
-# Configurações opcionais de LLM (podem ser alteradas também pela interface Streamlit)
-LLM_PROVIDER=gemini       # Opções: "gemini" ou "ollama"
-LLM_MODEL=gemini-flash-latest
+# Provedor de Embeddings: 'google' ou 'ollama'
+EMBEDDING_PROVIDER=google
+# Modelo de embeddings do Gemini
+EMBEDDING_MODEL=models/gemini-embedding-001
+# Modelo de embeddings do Ollama local
+OLLAMA_EMBEDDING_MODEL=snowflake-arctic-embed2:latest
+
+# Provedor de LLM: 'google' ou 'ollama'
+LLM_PROVIDER=google
+# Modelo de LLM do Gemini
+LLM_MODEL=gemini-2.5-flash
+# Modelo de LLM do Ollama local
 OLLAMA_LLM_MODEL=llama3:8b
+# URL da instância local do Ollama
 OLLAMA_BASE_URL=http://localhost:11434
 ```
 
@@ -220,13 +233,13 @@ OLLAMA_BASE_URL=http://localhost:11434
 > Caso escolha utilizar o Ollama, certifique-se de que o serviço do Ollama está rodando localmente na sua máquina e que possui o modelo baixado (ex: `ollama run llama3:8b`).
 
 ### 5. Executar o Pipeline de Ingestão de Dados (ChromaDB)
-```powershell
-.\.venv\Scripts\python.exe pipeline_ingestao.py
+```bash
+python scripts/pipeline_ingestao.py
 ```
 
 ### 6. Iniciar a Aplicação Streamlit
-```powershell
-.\.venv\Scripts\streamlit.exe run app.py
+```bash
+streamlit run app.py
 ```
 Acesse a aplicação no seu navegador no endereço: `http://localhost:8501`. Na barra lateral, você poderá alternar entre **Google Gemini (Nuvem)** e **Ollama (Local)** e escolher os modelos instalados em tempo de execução.
 

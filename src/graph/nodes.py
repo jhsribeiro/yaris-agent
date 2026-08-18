@@ -3,7 +3,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_ollama import ChatOllama
 
 from src.database.connection import get_retriever
-from src.prompts import SYSTEM_PROMPT, EMPTY_CONTEXT_PROMPT
+from src.graph.prompts import SYSTEM_PROMPT, EMPTY_CONTEXT_PROMPT
 from src.config import LLM_PROVIDER, LLM_MODEL, OLLAMA_LLM_MODEL, OLLAMA_BASE_URL
 from src.graph.state import AgentState
 

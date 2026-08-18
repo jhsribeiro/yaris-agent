@@ -1,4 +1,9 @@
 import os
+import sys
+
+# Garante que a raiz do projeto esteja no sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from src.graph.build import app_graph
 
 def gerar_e_salvar_grafo():
@@ -8,8 +13,10 @@ def gerar_e_salvar_grafo():
     """
     try:
         graph_bytes = app_graph.get_graph().draw_mermaid_png()
-        os.makedirs("assets", exist_ok=True)
-        caminho_img = os.path.join("assets", "fluxo_langgraph.png")
+        root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+        assets_dir = os.path.join(root_dir, "assets")
+        os.makedirs(assets_dir, exist_ok=True)
+        caminho_img = os.path.join(assets_dir, "fluxo_langgraph.png")
         
         with open(caminho_img, "wb") as f:
             f.write(graph_bytes)
@@ -30,4 +37,3 @@ def gerar_e_salvar_grafo():
 
 if __name__ == "__main__":
     gerar_e_salvar_grafo()
-

@@ -91,4 +91,3 @@ Se a resposta violar qualquer uma das regras acima, corrija-a mantendo o conteú
 Se a resposta estiver 100% correta, retorne a resposta exatamente como está.
 Retorne APENAS o texto da resposta ajustada, sem meta-comentários ou observações.
 """
-

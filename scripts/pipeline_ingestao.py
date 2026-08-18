@@ -1,5 +1,11 @@
 import os
+import sys
 import time
+
+# Garante que a raiz do projeto esteja no sys.path
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, root_dir)
+
 from tqdm.auto import tqdm
 from langchain_community.document_loaders import DirectoryLoader, TextLoader, PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -59,7 +65,8 @@ def executar_ingestao():
     """
     print("Iniciando o pipeline de ingestão de dados...")
     
-    target_dirs = ["./docs"]
+    docs_dir = os.path.join(root_dir, "docs")
+    target_dirs = [docs_dir]
     documentos = []
     
     for ddir in target_dirs:
