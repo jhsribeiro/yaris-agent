@@ -5,7 +5,7 @@
 [![LangChain](https://img.shields.io/badge/LangChain-0.3-1C3C3C.svg?logo=langchain&logoColor=white)](https://www.langchain.com/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-Stateful_RAG-0055FF.svg)](https://langchain-ai.github.io/langgraph/)
 [![ChromaDB](https://img.shields.io/badge/VectorDatabase-ChromaDB-yellow.svg)](https://www.trychroma.com/)
-[![Deploy](https://img.shields.io/badge/Deploy-Streamlit_Cloud-FF4B4B.svg?logo=streamlit&logoColor=white)](https://yaris-agent.streamlit.app)
+[![Oracle Cloud](https://img.shields.io/badge/Oracle_Cloud-OCI_Deploy-F80000.svg?logo=oracle&logoColor=white)](#visão-geral)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -37,9 +37,9 @@ A **Yara Ltda.** foi criada originalmente no âmbito acadêmico como o **Projeto
 
 Como evolução dessa iniciativa no **Desafio Final Alura Agent (Oracle + Alura ONE)**, foi desenvolvido o **YARIS** (*Yara Intelligent System*), um assistente virtual corporativo de Inteligência Artificial para a Yara Ltda. O sistema centraliza, estrutura e responde instantaneamente a dúvidas dos colaboradores sobre processos operacionais (SOPs), manuais de RH, políticas de compliance, LGPD, diretrizes trabalhistas, faturamento e chamados de TI, eliminando o tempo desperdiçado na busca manual de arquivos.
 
-> 🚀 **Aplicação em Produção (Deploy):**  
-> Acesse o assistente interativo online: [![Acesse a Aplicação](https://img.shields.io/badge/🌐_Acesse_o_YARIS_Online-Streamlit_Cloud-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://yaris-agent.streamlit.app)  
-> URL direta: [**https://yaris-agent.streamlit.app**](https://yaris-agent.streamlit.app)
+> 🚀 **Aplicação em Produção (Deploy no Oracle Cloud Infrastructure - OCI):**  
+> Acesse a aplicação online: [![Acesse a Aplicação no Oracle Cloud](https://img.shields.io/badge/🌐_Acesse_o_YARIS_no_Oracle_Cloud-OCI-F80000?style=for-the-badge&logo=oracle&logoColor=white)](#visão-geral)  
+> *Hospedado na infraestrutura de nuvem de alta performance da **Oracle Cloud (OCI)**.*
 
 **Domínio de Aplicação:** Gestão do Conhecimento Corporativo & Assistência Virtual Inteligente via RAG (Retrieval-Augmented Generation).  
 **Público-Alvo:** Colaboradores, Gestores e Liderança da Yara Ltda.

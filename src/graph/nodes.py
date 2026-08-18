@@ -70,14 +70,22 @@ def chamar_llm(state: AgentState):
                             "**Como resolver:** Aguarde cerca de 15 a 30 segundos e envie sua pergunta novamente."
             }
         elif "not found" in err_msg or "404" in err_msg:
-            modelo_tentado = model or OLLAMA_LLM_MODEL
-            return {
-                "response": f"**Modelo do Ollama Não Instalado**\n\n"
-                            f"O serviço local do Ollama está em execução, mas o modelo `{modelo_tentado}` não foi encontrado.\n\n"
-                            "**Como resolver:**\n"
-                            f"1. Abra seu terminal e instale/baixe o modelo executando: `ollama run {modelo_tentado}`\n"
-                            "2. Ou configure o modelo no arquivo `src/config.py` ou `.env`."
-            }
+            modelo_tentado = model or (OLLAMA_LLM_MODEL if provider == "ollama" else LLM_MODEL)
+            if provider == "ollama":
+                return {
+                    "response": f"**Modelo do Ollama Não Instalado**\n\n"
+                                f"O serviço local do Ollama está em execução, mas o modelo `{modelo_tentado}` não foi encontrado.\n\n"
+                                "**Como resolver:**\n"
+                                f"1. Abra seu terminal e instale/baixe o modelo executando: `ollama run {modelo_tentado}`\n"
+                                "2. Ou configure o modelo no arquivo `src/config.py` ou `.env`."
+                }
+            else:
+                return {
+                    "response": f"**Modelo do Gemini Não Encontrado (Erro 404)**\n\n"
+                                f"O modelo `{modelo_tentado}` não existe na API do Google Gemini.\n\n"
+                                "**Como resolver:**\n"
+                                "Altere o modelo no arquivo `.env` ou `src/config.py` para um modelo válido como `gemini-1.5-flash` ou `gemini-2.0-flash`."
+                }
         elif "connection" in err_msg or "refused" in err_msg or "11434" in err_msg or "connecterror" in err_msg:
             modelo_tentado = model or OLLAMA_LLM_MODEL
             return {
