@@ -59,8 +59,8 @@ def get_sector_from_filename(filename: str) -> str:
     elif any(k in fn for k in ["sop-003", "sop-004", "sop-006", "logistica", "estoque", "florent", "rastreamento", "inbound"]):
         return "Operações & Logística"
         
-    # 11. Políticas Internas (Moda sustentável, gestão social, reembolso, conduta)
-    elif any(k in fn for k in ["pol-001", "pol-002", "pol-008", "10_politica_interna"]):
+    # 11. Políticas Internas (Moda sustentável, gestão social, reembolso, conduta, missão/visão/valores)
+    elif any(k in fn for k in ["pol-000", "pol-001", "pol-002", "pol-008", "10_politica_interna", "missao"]):
         return "Políticas Internas"
         
     # Fallback Padrão

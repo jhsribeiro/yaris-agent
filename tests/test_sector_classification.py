@@ -46,6 +46,7 @@ def test_operacoes_logistica_classification():
     assert get_sector_from_filename("SOP-006_Rastreamento_de_Pecas_e_Fornecedores_Florent.md") == "Operações & Logística"
 
 def test_politicas_internas_fallback():
+    assert get_sector_from_filename("POL-000_Missao_Visao_Valores_Yara.md") == "Políticas Internas"
     assert get_sector_from_filename("POL-001_Politica_de_Moda_Sustentavel_e_Fornecedores.md") == "Políticas Internas"
     assert get_sector_from_filename("POL-002_Gestao_Social_e_Impacto_Comunitario.md") == "Políticas Internas"
     assert get_sector_from_filename("POL-008_Politicas_Internas_e_Reembolso.md") == "Políticas Internas"

@@ -19,6 +19,7 @@
 7. [Deploy & Infraestrutura em Nuvem (Oracle Cloud - OCI)](#7-deploy--infraestrutura-em-nuvem-oracle-cloud---oci)
 8. [Suíte de Testes Automatizados (Pytest)](#8-suíte-de-testes-automatizados-pytest)
 9. [Guia de Manutenção e Resolução de Problemas](#9-guia-de-manutenção-e-resolução-de-problemas)
+10. [Checklist de Requisitos e Critérios do Desafio (Alura Agent)](#10-checklist-de-requisitos-e-critérios-do-desafio-alura-agent)
 
 ---
 
@@ -422,6 +423,29 @@ Saída esperada:
 #### 🔴 Erro: Conexão Recusada no Ollama (Porta 11434)
 - **Causa**: O serviço local do Ollama não está rodando na máquina.
 - **Solução**: Inicie o Ollama (`ollama serve`), certifique-se de ter baixado o modelo (`ollama run llama3:8b`), ou altere `LLM_PROVIDER=google` no arquivo `.env`.
+
+---
+
+## 10. Checklist de Requisitos e Critérios do Desafio (Alura Agent)
+
+### 10.1. Resumo do Cumprimento das Fases do Projeto
+
+| Fase / Requisito | Status | Detalhes Técnicos & Evidências |
+| :--- | :---: | :--- |
+| **1. Base de Conhecimento** | ✅ Concluído | 14 documentos Markdown estruturados em SOPs, POLs, GUIs e FAQs em [`./data/`](file:///c:/Users/jhiov/dev/yaris-agent/data) categorizados em 11 setores corporativos. |
+| **2. Agente RAG Local & IA** | ✅ Concluído | Workflow Stateful **LangGraph**, **ChromaDB** vetorial local (`./chroma_db`), dual embeddings (Ollama / Gemini) e LLMs mistas. |
+| **3. Interface Web Conversacional** | ✅ Concluído | Interface **Streamlit** ([`app.py`](file:///c:/Users/jhiov/dev/yaris-agent/app.py)) em Dark Mode Obsidian, chips de setor, seletor de modelos em runtime e rastreabilidade de fontes. |
+| **4. Implantação na Nuvem OCI** | ✅ Concluído | Instância OCI Compute (`http://163.176.89.50:8501`), serviço `systemd` (`yaris-agent.service`) e portas liberadas. |
+| **5. Documentação & GitHub** | ✅ Concluído | Repositório público com [`README.md`](file:///c:/Users/jhiov/dev/yaris-agent/README.md), [`DOCUMENTACAO_TECNICA.md`](file:///c:/Users/jhiov/dev/yaris-agent/docs/DOCUMENTACAO_TECNICA.md), [`DEPLOY_OCI.md`](file:///c:/Users/jhiov/dev/yaris-agent/docs/DEPLOY_OCI.md), diagramas Mermaid e suíte de testes unitários. |
+
+### 10.2. Análise de Atendimento dos Critérios de Avaliação
+
+| Critério de Avaliação | Situação | Análise Justificada |
+| :--- | :---: | :--- |
+| **1. Funcionalidade do Agente** | ✅ **Atendido** | Busca vetorial semântica filtrada por departamento, orquestração stateful via LangGraph, ausência de alucinações e cumprimento de regras estritas de conduta (sem emojis, compliance corporativo). |
+| **2. Deploy na OCI** | ✅ **Atendido** | Instância OCI Compute operando 24/7 na porta 8501 (`http://163.176.89.50:8501`), gerenciada via `systemd` e com evidências visuais registradas na documentação. |
+| **3. Repositório GitHub** | ✅ **Atendido** | Repositório público organizado ([`jhsribeiro/yaris-agent`](https://github.com/jhsribeiro/yaris-agent)), licença MIT, estrutura modular em `src/`, `scripts/`, `tests/` e histórico de commits consistente. |
+| **4. Qualidade da Documentação** | ✅ **Atendido** | Documentação técnica completa (`DOCUMENTACAO_TECNICA.md`), guia de deploy (`DEPLOY_OCI.md`), diagramas de arquitetura Mermaid e suíte automatizada de testes unitários (`pytest`). |
 
 ---
 

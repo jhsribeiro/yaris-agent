@@ -38,25 +38,20 @@ A **Yara Ltda.** foi criada originalmente no âmbito acadêmico como o **Projeto
 
 Como evolução dessa iniciativa no **Desafio Final Alura Agent (Oracle + Alura ONE)**, foi desenvolvido o **YARIS** (*Yara Intelligent System*), um assistente virtual corporativo de Inteligência Artificial para a Yara Ltda. O sistema centraliza, estrutura e responde instantaneamente a dúvidas dos colaboradores sobre processos operacionais (SOPs), manuais de RH, políticas de compliance, LGPD, diretrizes trabalhistas, faturamento e chamados de TI, eliminando o tempo desperdiçado na busca manual de arquivos.
 
-> 🚀 **Aplicação em Produção (Deploy no Oracle Cloud Infrastructure - OCI):**  
-> Acesse a aplicação online: [![Acesse a Aplicação no Oracle Cloud](https://img.shields.io/badge/🌐_Acesse_o_YARIS_no_Oracle_Cloud-OCI-F80000?style=for-the-badge&logo=oracle&logoColor=white)](http://163.176.89.50:8501)  
-> *Hospedado na infraestrutura de nuvem de alta performance da **Oracle Cloud (OCI)**.*
-
 **Domínio de Aplicação:** Gestão do Conhecimento Corporativo & Assistência Virtual Inteligente via RAG (Retrieval-Augmented Generation).  
 **Público-Alvo:** Colaboradores, Gestores e Liderança da Yara Ltda.
 
+> [!IMPORTANT]
+> ### 🚀 Aplicação em Produção
+> 
+> [![Acessar YARIS no Oracle Cloud](https://img.shields.io/badge/🌐_Acessar_YARIS_no_Oracle_Cloud-OCI-F80000?style=for-the-badge&logo=oracle&logoColor=white)](http://163.176.89.50:8501)
+> 
+> *A aplicação está operando 24/7 hospedada na infraestrutura da **Oracle Cloud Infrastructure (OCI)**.*
 ---
 
 ## Sobre o Desafio
 
-Este projeto foi desenvolvido como a entrega do **Desafio Final da Trilha de Inteligência Artificial** do programa **Oracle Next Education (ONE)** em parceria com a **Alura**.
-
-### Objetivos do Desafio
-- **Aplicação Prática de Agentes de IA**: Criar um agente inteligente corporativo capaz de resolver problemas reais de negócio utilizando técnicas modernas de **RAG (Retrieval-Augmented Generation)**.
-- **Orquestração Stateful**: Implementar um fluxo de execução baseado em grafos de estado com **LangGraph**, permitindo tomar decisões condicionais, tratar contextos vazios e formatar respostas com precisão.
-- **Armazenamento e Recuperação Vetorial**: Estruturar e indexar documentos corporativos (PDFs e Markdown) em um banco de dados vetorial (**ChromaDB**), garantindo busca semântica relevante e filtragem por metadados.
-- **Flexibilidade e Privacidade**: Oferecer suporte tanto a provedores de LLM baseados em nuvem (Google Gemini) quanto a execuções 100% locais e privadas via Ollama.
-- **Interface e Experiência do Usuário (UI/UX)**: Construir um painel interativo e intuitivo em **Streamlit** com histórico de bate-papo, seletores de setor e alternância de modelos em tempo de execução.
+O **Desafio Final Alura Agent** é a etapa conclusiva da Trilha de Inteligência Artificial do programa **Oracle Next Education (ONE)** em parceria com a **Alura**. O objetivo principal é desenvolver um assistente virtual corporativo completo, integrando técnicas avançadas de **RAG (Retrieval-Augmented Generation)**, orquestração por grafos de estado com **LangGraph** e hospedagem em nuvem na **Oracle Cloud Infrastructure (OCI)**.
 
 ---
 
@@ -71,7 +66,7 @@ Este projeto foi desenvolvido como a entrega do **Desafio Final da Trilha de Int
   - Permite ao usuário filtrar suas pesquisas por setor específico ou realizar busca ampla em toda a empresa.
 
 - 🔄 **Arquitetura Híbrida e Multiprovedor (Nuvem vs 100% Local)**:
-  - **Google Gemini**: Respostas ultra-rápidas via API Gemini (`gemini-2.5-flash`).
+  - **Google Gemini**: Respostas ultra-rápidas via API Gemini (`gemini-3.5-flash-lite`).
   - **Ollama Local**: Execução 100% privada e offline utilizando modelos como `llama3:8b` ou `gemma:2b`.
   - **Embeddings Flexíveis**: Suporte para `gemini-embedding-001` e `snowflake-arctic-embed2:latest`.
 
@@ -134,6 +129,7 @@ yaris-agent/
 │   │   ├── SOP-006_Rastreamento_de_Pecas_e_Fornecedores_Florent.md
 │   │   └── SOP-007_Suprimentos_e_Sacolas_Loja_Conceito.md
 │   ├── 02_politicas_e_compliance/
+│   │   ├── POL-000_Missao_Visao_Valores_Yara.md
 │   │   ├── POL-001_Politica_de_Moda_Sustentavel_e_Fornecedores.md
 │   │   ├── POL-002_Gestao_Social_e_Impacto_Comunitario.md
 │   │   ├── POL-003_Direitos_Trabalhistas_e_Conduta.md
@@ -209,7 +205,7 @@ flowchart TD
 
     F -->|Query Vetorial| H[(ChromaDB VectorStore)]
     G -->|Gera Resposta| I[LLM: Google Gemini Flash / Ollama]
-    I -->|Retorna Texto Sem Emojis + Fontes| B
+    I -->|Retorna Texto + Fontes| B
 ```
 
 ---
@@ -236,6 +232,7 @@ Regras corporativas, diretrizes trabalhistas e governança.
 
 | Código | Documento | Setor Mapeado | Descrição |
 | :--- | :--- | :--- | :--- |
+| **POL-000** | `POL-000_Missao_Visao_Valores_Yara.md` | Políticas Internas | Identidade corporativa: Missão, Visão, Valores e Diretrizes Estratégicas. |
 | **POL-001** | `POL-001_Politica_de_Moda_Sustentavel.md` | Comercial & Vendas | Homologação de tecidos biodegradáveis e compras transparentes. |
 | **POL-002** | `POL-002_Gestao_Social_e_Impacto.md` | Gestão Social & Impacto | Doação de peças e impacto comunitário no DF (Estrutural/Ceilândia). |
 | **POL-003** | `POL-003_Direitos_Trabalhistas_e_Conduta.md` | Recursos Humanos | Código de conduta, jornada CLT e igualdade de oportunidades. |
