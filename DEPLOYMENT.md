@@ -126,12 +126,16 @@ sudo systemctl status yaris-agent
 
 Execute e capture a saída dos seguintes comandos para compor o relatório de evidências:
 
+![alt text](image-3.png)
+
 ### Evidência 1: Status do Serviço Systemd
 **Comando:**
 ```bash
 sudo systemctl status yaris-agent
 ```
 **Saída Esperada:** `active (running)`.
+
+![alt text](image.png)
 
 ---
 
@@ -149,7 +153,7 @@ curl -I http://localhost:8501
 ```bash
 sudo journalctl -u yaris-agent -n 30 --no-pager
 ```
-
+![alt text](image-1.png)
 ---
 
 ### Evidência 4: Verificação dos Dados Persistidos (ChromaDB)
@@ -157,6 +161,13 @@ sudo journalctl -u yaris-agent -n 30 --no-pager
 ```bash
 ls -la chroma_db/
 ```
+![alt text](image-2.png)
+---
+
+### Evidência 5: Interface Web do YARIS AI Agent no OCI (Navegador)
+**Endereço:** `http://163.176.89.50:8501`
+
+![Interface Web do YARIS AI Agent no Oracle Cloud](assets/evidencia_oci.png)
 
 ---
 

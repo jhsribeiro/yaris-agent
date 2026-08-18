@@ -27,6 +27,7 @@
 - [Diagrama de Arquitetura do Sistema](#diagrama-de-arquitetura-do-sistema)
 - [Documentação da Base de Conhecimento](#documentação-da-base-de-conhecimento)
 - [Configuração do Ambiente](#configuração-do-ambiente)
+- [Evidência do Deploy na Oracle Cloud (OCI)](#evidência-do-deploy-na-oracle-cloud-oci)
 - [Licença](#licença)
 
 ---
@@ -38,7 +39,7 @@ A **Yara Ltda.** foi criada originalmente no âmbito acadêmico como o **Projeto
 Como evolução dessa iniciativa no **Desafio Final Alura Agent (Oracle + Alura ONE)**, foi desenvolvido o **YARIS** (*Yara Intelligent System*), um assistente virtual corporativo de Inteligência Artificial para a Yara Ltda. O sistema centraliza, estrutura e responde instantaneamente a dúvidas dos colaboradores sobre processos operacionais (SOPs), manuais de RH, políticas de compliance, LGPD, diretrizes trabalhistas, faturamento e chamados de TI, eliminando o tempo desperdiçado na busca manual de arquivos.
 
 > 🚀 **Aplicação em Produção (Deploy no Oracle Cloud Infrastructure - OCI):**  
-> Acesse a aplicação online: [![Acesse a Aplicação no Oracle Cloud](https://img.shields.io/badge/🌐_Acesse_o_YARIS_no_Oracle_Cloud-OCI-F80000?style=for-the-badge&logo=oracle&logoColor=white)](#visão-geral)  
+> Acesse a aplicação online: [![Acesse a Aplicação no Oracle Cloud](https://img.shields.io/badge/🌐_Acesse_o_YARIS_no_Oracle_Cloud-OCI-F80000?style=for-the-badge&logo=oracle&logoColor=white)](http://163.176.89.50:8501)  
 > *Hospedado na infraestrutura de nuvem de alta performance da **Oracle Cloud (OCI)**.*
 
 **Domínio de Aplicação:** Gestão do Conhecimento Corporativo & Assistência Virtual Inteligente via RAG (Retrieval-Augmented Generation).  
@@ -289,6 +290,23 @@ streamlit run app.py
 ```
 Acesse a aplicação no seu navegador no endereço: `http://localhost:8501`. Na barra lateral, você poderá alternar entre **Google Gemini (Nuvem)** e **Ollama (Local)** e escolher os modelos instalados em tempo de execução.
 
+### 7. Executar a Suíte de Testes Automatizados (Pytest)
+```bash
+pytest tests/
+```
+Para mais detalhes sobre a suíte de 24 testes unitários e de integração, consulte a [Documentação Técnica](file:///c:/Users/jhiov/dev/yaris-agent/DOCUMENTACAO_TECNICA.md#8-su%C3%ADte-de-testes-automatizados-pytest).
+
+---
+
+## Evidência do Deploy na Oracle Cloud (OCI)
+
+A aplicação **YARIS AI Agent** foi implantada com sucesso e está operacional na infraestrutura de nuvem da **Oracle Cloud Infrastructure (OCI)**.
+
+* **URL de Acesso Público:** `http://163.176.89.50:8501`
+* **Ambiente de Hospedagem:** Instância OCI Compute (Ubuntu Linux)
+* **Gerenciamento do Serviço:** Execução 24/7 via `systemd` (`yaris-agent.service`)
+
+![Evidência da Interface Web do YARIS AI Agent no OCI](assets/evidencia_oci.png)
 
 ---
 

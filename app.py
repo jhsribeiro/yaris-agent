@@ -315,25 +315,28 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Lista de Setores Corporativos para o Filtro Semântico por Botõezinhos
-SETORES_CHIPS = [
-    ("Todos", "Todos os Setores"),
-    ("Recursos Humanos", "Recursos Humanos"),
-    ("Financeiro", "Financeiro"),
-    ("TI & SLAs", "TI & Chamados"),
-    ("SAC", "Atendimento ao Cliente (SAC)"),
-    ("Comercial", "Comercial & Vendas"),
-    ("Compliance", "Compliance & LGPD"),
-    ("Jurídico", "Jurídico & Contratos"),
-    ("Suprimentos", "Facilities & Suprimentos"),
-    ("Loja", "Loja Conceito"),
-    ("Logística", "Operações & Logística"),
-    ("Políticas", "Políticas Internas")
+# Lista de Setores Corporativos para a Lista Suspensa de Busca Específica
+SETORES_OPCOES = [
+    "Todos os Setores",
+    "Recursos Humanos",
+    "Financeiro",
+    "TI & Chamados",
+    "Atendimento ao Cliente (SAC)",
+    "Comercial & Vendas",
+    "Compliance & LGPD",
+    "Jurídico & Contratos",
+    "Facilities & Suprimentos",
+    "Loja Conceito",
+    "Operações & Logística",
+    "Políticas Internas"
 ]
 
 # Inicialização do estado da sessão
 if "messages" not in st.session_state:
     st.session_state.messages = []
+
+if "pending_sector" in st.session_state:
+    st.session_state["active_sector"] = st.session_state.pop("pending_sector")
 
 if "active_sector" not in st.session_state:
     st.session_state.active_sector = "Todos os Setores"
@@ -346,12 +349,22 @@ with st.sidebar:
     # Botão de Nova Conversa
     if st.button("Nova conversa", use_container_width=True):
         st.session_state.messages = []
-        st.session_state.active_sector = "Todos os Setores"
+        st.session_state["pending_sector"] = "Todos os Setores"
         st.rerun()
         
     st.markdown("---")
 
-    # Indicador de Busca Específica (Filtro Ativo)
+    # Filtro de Busca por Departamento (Lista Suspensa)
+    st.markdown("<p style='font-size: 0.88rem; font-weight: 700; color: #F8FAFC; margin-bottom: 6px;'>🎯 Busca Específica por Setor</p>", unsafe_allow_html=True)
+    
+    st.selectbox(
+        "Selecione o setor de busca",
+        options=SETORES_OPCOES,
+        label_visibility="collapsed",
+        key="active_sector"
+    )
+
+    # Indicador de Status da Busca Específica
     current_sector = st.session_state.active_sector
     if current_sector == "Todos os Setores":
         status_text = "🌐 <b>Busca Global</b> (Todos os setores)"
@@ -371,34 +384,44 @@ with st.sidebar:
     with st.expander("**Sugestões de Consulta Rápida**", expanded=False):
         if st.button("🛡️ Compliance & LGPD", use_container_width=True, key="side_compliance"):
             st.session_state["pending_prompt"] = "Quais são as diretrizes da LGPD para proteção de dados de clientes e as regras anticorrupção na YARA?"
-            st.session_state.active_sector = "Compliance & LGPD"
+            st.session_state["pending_sector"] = "Compliance & LGPD"
+            st.rerun()
         if st.button("👥 Recursos Humanos", use_container_width=True, key="side_rh"):
             st.session_state["pending_prompt"] = "Quais são as regras do Banco de Horas, prazos de compensação e os benefícios (Plano de Saúde, VR/VA, VT e Desconto) oferecidos pela YARA?"
-            st.session_state.active_sector = "Recursos Humanos"
+            st.session_state["pending_sector"] = "Recursos Humanos"
+            st.rerun()
         if st.button("💰 Financeiro & Faturamento", use_container_width=True, key="side_fin"):
             st.session_state["pending_prompt"] = "Como funciona a emissão de nota fiscal, pagamento de fornecedores e prazos no ERP Omie?"
-            st.session_state.active_sector = "Financeiro"
+            st.session_state["pending_sector"] = "Financeiro"
+            st.rerun()
         if st.button("🖥️ Chamados de TI & SLAs", use_container_width=True, key="side_ti"):
             st.session_state["pending_prompt"] = "Quais são os canais para abrir um chamado de TI, como faço reset de senha e quais os SLAs de atendimento?"
-            st.session_state.active_sector = "TI & Chamados"
+            st.session_state["pending_sector"] = "TI & Chamados"
+            st.rerun()
         if st.button("🎧 Atendimento ao Cliente", use_container_width=True, key="side_sac"):
             st.session_state["pending_prompt"] = "Quais são os prazos de resposta do SAC, canal de Ouvidoria e regras de atendimento ao cliente?"
-            st.session_state.active_sector = "Atendimento ao Cliente (SAC)"
+            st.session_state["pending_sector"] = "Atendimento ao Cliente (SAC)"
+            st.rerun()
         if st.button("📈 Comercial & Alçadas", use_container_width=True, key="side_com"):
             st.session_state["pending_prompt"] = "Quais são as alçadas de desconto para vendas e a política de comissão para consultores e atacado?"
-            st.session_state.active_sector = "Comercial & Vendas"
+            st.session_state["pending_sector"] = "Comercial & Vendas"
+            st.rerun()
         if st.button("⚖️ Jurídico & Contratos", use_container_width=True, key="side_jur"):
             st.session_state["pending_prompt"] = "Qual o prazo de análise jurídica de contratos e em quais situações é obrigatória a assinatura de NDA?"
-            st.session_state.active_sector = "Jurídico & Contratos"
+            st.session_state["pending_sector"] = "Jurídico & Contratos"
+            st.rerun()
         if st.button("📦 Facilities & Suprimentos", use_container_width=True, key="side_fac"):
             st.session_state["pending_prompt"] = "Como funciona a solicitação de materiais de escritório e papelaria ecológica via Facilities e qual o prazo de entrega?"
-            st.session_state.active_sector = "Facilities & Suprimentos"
+            st.session_state["pending_sector"] = "Facilities & Suprimentos"
+            st.rerun()
         if st.button("🛍️ Suprimentos para a Loja", use_container_width=True, key="side_loja"):
             st.session_state["pending_prompt"] = "Como solicitar novas sacolas biodegradáveis, ecobags e tags para a loja física do Shopping Iguatemi?"
-            st.session_state.active_sector = "Loja Conceito"
+            st.session_state["pending_sector"] = "Loja Conceito"
+            st.rerun()
         if st.button("🚚 Rastreamento de Peças", use_container_width=True, key="side_log"):
             st.session_state["pending_prompt"] = "Como consultar o rastreamento e status de entrega de lotes de peças e tecidos dos fornecedores como a Florent?"
-            st.session_state.active_sector = "Operações & Logística"
+            st.session_state["pending_sector"] = "Operações & Logística"
+            st.rerun()
     
     # Base de Documentos Indexados (Abaixo das Sugestões)
     with st.expander("**Base de Conhecimento Indexada**"):
@@ -431,28 +454,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# FILTRO SEMÂNTICO POR BOTÕEZINHOS (CHIPS INTERATIVOS)
-st.markdown('<div class="filter-section-title"><b>Selecione o Departamento de Busca Específica</b></div>', unsafe_allow_html=True)
 
-# Primeira Linha de Chips (6 colunas)
-cols_row1 = st.columns(6)
-for idx, (short_label, val) in enumerate(SETORES_CHIPS[:6]):
-    is_active = (st.session_state.active_sector == val)
-    chip_label = f"🟢 {short_label}" if is_active else short_label
-    with cols_row1[idx]:
-        if st.button(chip_label, key=f"chip_{idx}", use_container_width=True):
-            st.session_state.active_sector = val
-            st.rerun()
-
-# Segunda Linha de Chips (6 colunas)
-cols_row2 = st.columns(6)
-for idx, (short_label, val) in enumerate(SETORES_CHIPS[6:]):
-    is_active = (st.session_state.active_sector == val)
-    chip_label = f"🟢 {short_label}" if is_active else short_label
-    with cols_row2[idx]:
-        if st.button(chip_label, key=f"chip_{idx+6}", use_container_width=True):
-            st.session_state.active_sector = val
-            st.rerun()
 
 
 
