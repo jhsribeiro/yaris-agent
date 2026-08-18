@@ -38,13 +38,15 @@ A **Yara Ltda.** foi criada originalmente no âmbito acadêmico como o **Projeto
 
 Como evolução dessa iniciativa no **Desafio Final Alura Agent (Oracle + Alura ONE)**, foi desenvolvido o **YARIS** (*Yara Intelligent System*), um assistente virtual corporativo de Inteligência Artificial para a Yara Ltda. O sistema centraliza, estrutura e responde instantaneamente a dúvidas dos colaboradores sobre processos operacionais (SOPs), manuais de RH, políticas de compliance, LGPD, diretrizes trabalhistas, faturamento e chamados de TI, eliminando o tempo desperdiçado na busca manual de arquivos.
 
-> 🚀 **Aplicação em Produção (Deploy no Oracle Cloud Infrastructure - OCI):**  
-> Acesse a aplicação online: [![Acesse a Aplicação no Oracle Cloud](https://img.shields.io/badge/🌐_Acesse_o_YARIS_no_Oracle_Cloud-OCI-F80000?style=for-the-badge&logo=oracle&logoColor=white)](http://163.176.89.50:8501)  
-> *Hospedado na infraestrutura de nuvem de alta performance da **Oracle Cloud (OCI)**.*
-
 **Domínio de Aplicação:** Gestão do Conhecimento Corporativo & Assistência Virtual Inteligente via RAG (Retrieval-Augmented Generation).  
 **Público-Alvo:** Colaboradores, Gestores e Liderança da Yara Ltda.
 
+> [!IMPORTANT]
+> ### 🚀 Aplicação em Produção
+> 
+> [![Acessar YARIS no Oracle Cloud](https://img.shields.io/badge/🌐_Acessar_YARIS_no_Oracle_Cloud-OCI-F80000?style=for-the-badge&logo=oracle&logoColor=white)](http://163.176.89.50:8501)
+> 
+> *A aplicação está operando 24/7 hospedada na infraestrutura da **Oracle Cloud Infrastructure (OCI)**.*
 ---
 
 ## Sobre o Desafio
