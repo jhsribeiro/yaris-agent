@@ -115,15 +115,14 @@ st.markdown("""
 
     .badge-sidebar-footer {
         background-color: #1E293B;
-        color: #93C5FD;
+        color: #94A3B8;
         border: 1px solid #334155;
-        border-left: 3px solid #3B82F6;
+        border-radius: 12px;
         padding: 10px 14px;
-        border-radius: 10px;
         font-weight: 600;
-        font-size: 0.84rem;
-        margin-top: auto;
-        margin-bottom: 8px;
+        font-size: 0.86rem;
+        margin-top: 0px;
+        margin-bottom: 14px;
         line-height: 1.4;
     }
 
@@ -200,10 +199,10 @@ st.markdown("""
         background: #1E293B;
         border: 1px solid #334155;
         border-radius: 12px;
-        padding: 10px 16px;
-        margin-top: 12px;
-        margin-bottom: 20px;
-        font-size: 0.88rem;
+        padding: 10px 14px;
+        margin-top: 8px;
+        margin-bottom: 10px;
+        font-size: 0.86rem;
         font-weight: 600;
         color: #94A3B8;
         display: flex;
@@ -352,6 +351,22 @@ with st.sidebar:
         
     st.markdown("---")
 
+    # Indicador de Busca Específica (Filtro Ativo)
+    current_sector = st.session_state.active_sector
+    if current_sector == "Todos os Setores":
+        status_text = "🌐 <b>Busca Global</b> (Todos os setores)"
+    else:
+        status_text = f"🎯 <b>Busca Específica:</b> <span class='active-filter-highlight'>{current_sector}</span>"
+    st.markdown(f'<div class="filter-status-indicator"><span>{status_text}</span></div>', unsafe_allow_html=True)
+
+    # Indicador do Modelo de IA
+    if LLM_PROVIDER.lower() == "ollama":
+        st.markdown(f"<div class='filter-status-indicator'><span>🦙 <b>Provedor:</b> Ollama (Local)<br><small style='color: #94A3B8;'>Modelo: {OLLAMA_LLM_MODEL}</small></span></div>", unsafe_allow_html=True)
+    else:
+        st.markdown(f"<div class='filter-status-indicator'><span>⚡ <b>Provedor:</b> Google Gemini<br><small style='color: #94A3B8;'>Modelo: {LLM_MODEL}</small></span></div>", unsafe_allow_html=True)
+
+    st.markdown("---")
+
     # Sugestões de Consulta Rápida na Sidebar
     with st.expander("**Sugestões de Consulta Rápida**", expanded=False):
         if st.button("🛡️ Compliance & LGPD", use_container_width=True, key="side_compliance"):
@@ -401,14 +416,6 @@ with st.sidebar:
         - 💼 **Políticas:** Reembolso & Garantia
         """)
 
-    st.markdown("<div style='margin-top: 30px;'></div>", unsafe_allow_html=True)
-
-    # Exibição do Modelo LLM Configurado Manualmente (Canto Inferior Esquerdo da Sidebar)
-    if LLM_PROVIDER.lower() == "ollama":
-        st.markdown(f"<div class='badge-sidebar-footer'>🦙 <b>Provedor:</b> Ollama (Local)<br><small style='color: #94A3B8;'>Modelo: {OLLAMA_LLM_MODEL}</small></div>", unsafe_allow_html=True)
-    else:
-        st.markdown(f"<div class='badge-sidebar-footer'>⚡ <b>Provedor:</b> Google Gemini<br><small style='color: #94A3B8;'>Modelo: {LLM_MODEL}</small></div>", unsafe_allow_html=True)
-
 
 
 
@@ -447,14 +454,7 @@ for idx, (short_label, val) in enumerate(SETORES_CHIPS[6:]):
             st.session_state.active_sector = val
             st.rerun()
 
-# Barra Status do Filtro Ativo
-current_sector = st.session_state.active_sector
-if current_sector == "Todos os Setores":
-    status_text = "🌐 <b>Busca Global</b> (Pesquisando em todos os documentos e manuais da empresa)"
-else:
-    status_text = f"🎯 <b>Busca Específica:</b> <span class='active-filter-highlight'>{current_sector}</span> (Restrito a este setor)"
 
-st.markdown(f'<div class="filter-status-indicator"><span>{status_text}</span></div>', unsafe_allow_html=True)
 
 # Exibindo histórico no UI
 for msg in st.session_state.messages:

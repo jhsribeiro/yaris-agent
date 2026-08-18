@@ -15,48 +15,57 @@ from src.database.connection import get_vectorstore
 def get_sector_from_filename(filename: str) -> str:
     """
     Classifica o setor corporativo do documento com base na identificação dos arquivos da pasta docs/ e legados.
+    Mapeia exatamente com as opções de filtros da interface (SETORES_CHIPS).
     """
     fn = os.path.basename(filename).lower()
     
-    # 1. Recursos Humanos (Onboarding, Direitos CLT, Benefícios, Banco de Horas, Contatos)
-    if any(k in fn for k in ["pol-003", "pol-005", "gui-001", "gui-002", "11_contatos", "6_manual_de_rh", "onboarding", "banco_de_horas"]):
-        return "Recursos Humanos"
+    # 1. Jurídico & Contratos (Análise de contratos, minutas, NDAs)
+    if any(k in fn for k in ["pol-006", "16_juridico", "contrat", "juridico"]):
+        return "Jurídico & Contratos"
         
-    # 2. Compliance, LGPD & Integridade (Política anticorrupção, proteção de dados, termos)
-    elif any(k in fn for k in ["pol-004", "compliance", "lgpd", "anticorrupcao", "16_juridico", "1_politica_de_privacidade", "5_termos"]):
+    # 2. Compliance & LGPD (Política anticorrupção, proteção de dados, termos)
+    elif any(k in fn for k in ["pol-004", "compliance", "lgpd", "anticorrupcao", "1_politica_de_privacidade", "5_termos"]):
         return "Compliance & LGPD"
         
-    # 3. Financeiro & Faturamento (Operação de caixa Omie, emissão NF, reembolso)
-    elif any(k in fn for k in ["sop-002", "13_financeiro", "2_politica_de_reembolso", "caixa_e_emissao_nf"]):
+    # 3. Recursos Humanos (Onboarding, Direitos CLT, Benefícios, Banco de Horas, Contatos)
+    elif any(k in fn for k in ["pol-003", "pol-005", "gui-001", "gui-002", "11_contatos", "6_manual_de_rh", "onboarding", "banco_de_horas"]):
+        return "Recursos Humanos"
+        
+    # 4. Financeiro & Faturamento (Operação de caixa Omie, emissão NF, contas)
+    elif any(k in fn for k in ["sop-002", "13_financeiro", "caixa_e_emissao_nf"]):
         return "Financeiro"
         
-    # 4. Atendimento ao Cliente / SAC (Atendimento presencial Iguatemi, FAQ vendas)
-    elif any(k in fn for k in ["sop-001", "faq-001", "14_atendimento", "venda_presencial"]):
+    # 5. Atendimento ao Cliente / SAC (SAC, Ouvidoria, prazos de atendimento)
+    elif any(k in fn for k in ["gui-003", "14_atendimento", "sac_"]):
         return "Atendimento ao Cliente (SAC)"
         
-    # 5. TI, Sistemas & Suporte (FAQ operacionais Omie/Impressora/Pix, chamados TI)
-    elif any(k in fn for k in ["faq-002", "12_ti_chamados", "10_politica_interna", "sistemas"]):
+    # 6. TI & Chamados (Portal de chamados, SLAs, reset de senha, infraesturura)
+    elif any(k in fn for k in ["faq-002", "faq-003", "12_ti_chamados", "sistemas"]):
         return "TI & Chamados"
         
-    # 6. Comercial, Marketing & Produtos (Moda sustentável, fornecedores, posicionamento)
-    elif any(k in fn for k in ["pol-001", "15_comercial", "moda_sustentavel", "marketing"]):
+    # 7. Comercial & Vendas (FAQ Vendas, Alçadas de desconto, Comissões B2B/Varejo)
+    elif any(k in fn for k in ["pol-007", "faq-001", "15_comercial", "comissoes"]):
         return "Comercial & Vendas"
         
-    # 7. Gestão Social & Impacto Comunitário (Doações Estrutural/Ceilândia, transparência)
-    elif any(k in fn for k in ["pol-002", "gestao_social", "impacto_comunitario"]):
-        return "Gestão Social & Impacto"
-        
-    # 8. Facilities, Suprimentos & Almoxarifado (Papelaria ecológica, insumos de escritório)
+    # 8. Facilities & Suprimentos (Papelaria ecológica, insumos de escritório, almoxarifado)
     elif any(k in fn for k in ["sop-005", "facilities", "papelaria"]):
         return "Facilities & Suprimentos"
         
-    # 9. Operações, Logística & Estoque (Logística reversa, contingência Ateliê Almada, estoque)
-    elif any(k in fn for k in ["sop-003", "sop-004", "logistica_reversa", "gestao_estoque"]):
+    # 9. Loja Conceito (Atendimento presencial Iguatemi, sacolas biodegradáveis, balcão)
+    elif any(k in fn for k in ["sop-001", "sop-007", "venda_presencial", "loja_conceito", "sacolas"]):
+        return "Loja Conceito"
+        
+    # 10. Operações & Logística (Logística reversa, contingência Ateliê Almada, estoque, fretes, Florent)
+    elif any(k in fn for k in ["sop-003", "sop-004", "sop-006", "logistica", "estoque", "florent", "rastreamento", "inbound"]):
         return "Operações & Logística"
+        
+    # 11. Políticas Internas (Moda sustentável, gestão social, reembolso, conduta)
+    elif any(k in fn for k in ["pol-001", "pol-002", "pol-008", "10_politica_interna"]):
+        return "Políticas Internas"
         
     # Fallback Padrão
     else:
-        return "Operações & Logística"
+        return "Políticas Internas"
 
 def executar_ingestao():
     """

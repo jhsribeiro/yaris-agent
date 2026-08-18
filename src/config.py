@@ -16,7 +16,7 @@ EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL", "models/gemini-embedding-001
 
 # Configurações de LLM (Gemini / Ollama)
 LLM_PROVIDER = os.environ.get("LLM_PROVIDER", "google")  # Opções: "gemini" ou "ollama"
-LLM_MODEL = os.environ.get("LLM_MODEL", "gemini-3.6-flash")
+LLM_MODEL = os.environ.get("LLM_MODEL", "gemini-3.5-flash-lite")
 OLLAMA_LLM_MODEL = os.environ.get("OLLAMA_LLM_MODEL", "llama3:8b")
 OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
 
