@@ -147,7 +147,7 @@ yaris-agent/
 │       └── GUI-003_Atendimento_SAC_e_Ouvidoria.md
 ├── docs/
 │   ├── assets/
-│   │   ├── evidencia_oci.png
+│   │   ├── evidencia_oci_deploy.png
 │   │   ├── evidencia_oci_chromadb.png
 │   │   ├── evidencia_oci_execucao.png
 │   │   ├── evidencia_oci_logs.png
@@ -330,7 +330,7 @@ A aplicação **YARIS AI Agent** foi implantada com sucesso e está operacional 
 * **Ambiente de Hospedagem:** Instância OCI Compute (Ubuntu Linux)
 * **Gerenciamento do Serviço:** Execução 24/7 via `systemd` (`yaris-agent.service`)
 
-![Evidência da Interface Web do YARIS AI Agent no OCI](docs/assets/evidencia_oci.png)
+![Evidência da Interface Web do YARIS AI Agent no OCI](docs/assets/evidencia_deploy.png)
 
 ---
 

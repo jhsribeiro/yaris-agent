@@ -171,7 +171,7 @@ ls -la chroma_db/
 ### Evidência 5: Interface Web do YARIS AI Agent no OCI (Navegador)
 **Endereço:** `http://163.176.89.50:8501`
 
-![Interface Web do YARIS AI Agent no Oracle Cloud Infrastructure (OCI)](assets/evidencia_oci.png)
+![Interface Web do YARIS AI Agent no Oracle Cloud Infrastructure (OCI)](assets/evidencia_deploy.png)
 
 ---
 
