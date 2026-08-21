@@ -20,17 +20,90 @@ st.markdown("""
 
     html, body, [class*="css"], .stMarkdown, p, h1, h2, h3, h4, h5, h6, input, button, textarea {
         font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        color: #F8FAFC;
     }
 
-    /* Ocultar elementos nativos do Streamlit */
+    /* Ocultar elementos nativos desnecessários do Streamlit */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    header[data-testid="stHeader"] {background: transparent;}
+    header[data-testid="stHeader"] {
+        background: transparent !important;
+    }
+    header[data-testid="stHeader"] button, header[data-testid="stHeader"] svg {
+        color: #F8FAFC !important;
+        fill: #F8FAFC !important;
+    }
     
     /* Fundo principal da aplicação */
     .stApp {
-        background-color: #0B0F17;
-        color: #F8FAFC;
+        background-color: #0B0F17 !important;
+        color: #F8FAFC !important;
+    }
+
+    /* Garantir fundo escuro no container stBottom e stChatInput (Mobile & Desktop) */
+    [data-testid="stBottom"], [data-testid="stBottom"] > div, .stChatInputContainer {
+        background-color: #0B0F17 !important;
+        background: #0B0F17 !important;
+    }
+
+    [data-testid="stChatInput"] {
+        border-radius: 16px !important;
+        background-color: #1E293B !important;
+        border: 1px solid #334155 !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    [data-testid="stChatInput"] > div,
+    [data-testid="stChatInput"] [data-testid="stChatInputTextArea"] {
+        background-color: #1E293B !important;
+        color: #F8FAFC !important;
+    }
+
+    [data-testid="stChatInput"] textarea,
+    div[data-baseweb="base-input"] textarea {
+        background-color: transparent !important;
+        color: #F8FAFC !important;
+        font-size: 0.95rem !important;
+    }
+
+    /* Estilização de Placeholders e Ícone do Botão do Chat Input */
+    textarea::placeholder, input::placeholder, ::placeholder {
+        color: #94A3B8 !important;
+        opacity: 1 !important;
+    }
+
+    [data-testid="stChatInputSubmitButton"] {
+        background-color: #1E293B !important;
+        border: none !important;
+        color: #60A5FA !important;
+    }
+    
+    [data-testid="stChatInputSubmitButton"] svg {
+        fill: #60A5FA !important;
+    }
+
+    /* Selectbox e Menus Popover (BaseWeb / Streamlit dropdowns) */
+    div[data-baseweb="select"] > div {
+        background-color: #1E293B !important;
+        border-color: #334155 !important;
+        color: #F8FAFC !important;
+        border-radius: 12px !important;
+    }
+
+    ul[data-baseweb="menu"], div[data-baseweb="popover"], div[data-baseweb="popover"] > div {
+        background-color: #1E293B !important;
+        border: 1px solid #334155 !important;
+        color: #F8FAFC !important;
+    }
+
+    li[data-baseweb="option"] {
+        background-color: #1E293B !important;
+        color: #F8FAFC !important;
+    }
+
+    li[data-baseweb="option"]:hover, li[aria-selected="true"] {
+        background-color: #334155 !important;
+        color: #60A5FA !important;
     }
 
     /* Hero Banner Principal */
@@ -125,7 +198,6 @@ st.markdown("""
         margin-bottom: 14px;
         line-height: 1.4;
     }
-
 
     .badge-status {
         background: rgba(16, 185, 129, 0.15);
@@ -288,6 +360,15 @@ st.markdown("""
         border-radius: 12px !important;
         margin-top: 6px !important;
         margin-bottom: 6px !important;
+        color: #F8FAFC !important;
+    }
+
+    div[data-testid="stExpander"] summary {
+        color: #F8FAFC !important;
+    }
+
+    div[data-testid="stExpander"] p, div[data-testid="stExpander"] span, div[data-testid="stExpander"] li {
+        color: #CBD5E1 !important;
     }
 
     .streamlit-expanderHeader {
@@ -298,20 +379,54 @@ st.markdown("""
         padding: 10px 14px !important;
     }
 
-    /* Custom Input de Chat */
-    [data-testid="stChatInput"] {
-        border-radius: 16px !important;
-        background-color: #1E293B !important;
-        border: 1px solid #334155 !important;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
-    }
+    /* Regras Adaptativas para Dispositivos Móveis (Mobile Responsiveness) */
+    @media (max-width: 768px) {
+        .hero-container {
+            padding: 18px 20px !important;
+            border-radius: 16px !important;
+            margin-bottom: 16px !important;
+        }
 
-    [data-testid="stChatInput"] textarea {
-        background-color: transparent !important;
-        color: #F8FAFC !important;
-        font-size: 0.95rem !important;
-    }
+        .hero-title {
+            font-size: 1.45rem !important;
+            margin: 6px 0 4px 0 !important;
+        }
 
+        .hero-subtitle {
+            font-size: 0.88rem !important;
+            line-height: 1.4 !important;
+        }
+
+        [data-testid="stChatMessage"] {
+            padding: 12px 14px !important;
+            border-radius: 12px !important;
+            margin-bottom: 10px !important;
+        }
+
+        div.stButton > button {
+            padding: 10px 12px !important;
+            font-size: 0.82rem !important;
+            min-height: 40px !important;
+        }
+
+        .filter-status-indicator {
+            padding: 8px 12px !important;
+            font-size: 0.8rem !important;
+        }
+
+        [data-testid="stChatInput"] {
+            border-radius: 12px !important;
+        }
+
+        .source-card {
+            padding: 10px 12px !important;
+            font-size: 0.82rem !important;
+        }
+
+        [data-testid="stBottom"] {
+            padding-bottom: 10px !important;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
