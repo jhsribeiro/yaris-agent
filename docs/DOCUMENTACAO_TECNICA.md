@@ -97,7 +97,7 @@ A base do YARIS é dividida e categorizada em **11 setores corporativos**, permi
 
 O motor do YARIS utiliza o **LangGraph** para garantir execução determinística, roteamento condicional de saudações e controle granular sobre a recuperação vetorial e geração.
 
-### 2.1. Estrutura do Estado ([`src/graph/state.py`](file:///c:/Users/jhiov/dev/yaris-agent/src/graph/state.py))
+### 2.1. Estrutura do Estado ([`src/graph/state.py`](../src/graph/state.py))
 
 O estado compartilhado no grafo de execução é definido pela classe `TypedDict` `AgentState`:
 
@@ -114,7 +114,7 @@ class AgentState(TypedDict, total=False):
     llm_model: Optional[str]        # Nome do modelo (ex: "gemini-3.5-flash-lite", "llama3:8b")
 ```
 
-### 2.2. Roteamento Inicial Condicional ([`src/graph/edges.py`](file:///c:/Users/jhiov/dev/yaris-agent/src/graph/edges.py))
+### 2.2. Roteamento Inicial Condicional ([`src/graph/edges.py`](../src/graph/edges.py))
 
 Para otimizar o tempo de resposta e economizar requisições vetoriais, perguntas que consistem em saudações curtas ("oi", "olá", "bom dia") ignoram a busca no banco vetorial e vão direto para a geração da LLM:
 
@@ -128,7 +128,7 @@ def roteamento_inicial(state: AgentState) -> str:
     return "ir_para_rag"
 ```
 
-### 2.3. Nós de Execução ([`src/graph/nodes.py`](file:///c:/Users/jhiov/dev/yaris-agent/src/graph/nodes.py))
+### 2.3. Nós de Execução ([`src/graph/nodes.py`](../src/graph/nodes.py))
 
 1. **`buscar_rag(state: AgentState)`**:
    - Lê `question` e `sector` do estado.
@@ -146,7 +146,7 @@ def roteamento_inicial(state: AgentState) -> str:
      - Erros de modelo não encontrado (Erro 404).
      - Erros de conexão com o serviço local do Ollama (Porta `11434`).
 
-### 2.4. Grafo de Execução ([`src/graph/build.py`](file:///c:/Users/jhiov/dev/yaris-agent/src/graph/build.py))
+### 2.4. Grafo de Execução ([`src/graph/build.py`](../src/graph/build.py))
 
 ```python
 from langgraph.graph import StateGraph, END
@@ -176,19 +176,19 @@ def construir_grafo():
 app_graph = construir_grafo()
 ```
 
-### 2.5. Visualização Automática do Grafo ([`scripts/visualizar_grafo.py`](file:///c:/Users/jhiov/dev/yaris-agent/scripts/visualizar_grafo.py))
+### 2.5. Visualização Automática do Grafo ([`scripts/visualizar_grafo.py`](../scripts/visualizar_grafo.py))
 
-O script [`scripts/visualizar_grafo.py`](file:///c:/Users/jhiov/dev/yaris-agent/scripts/visualizar_grafo.py) exporta o diagrama visual do fluxo para `docs/assets/fluxo_langgraph.png`.
+O script [`scripts/visualizar_grafo.py`](../scripts/visualizar_grafo.py) exporta o diagrama visual do fluxo para `docs/assets/fluxo_langgraph.png`.
 
 ---
 
 ## 3. Pipeline de Ingestão e Vetorização de Dados
 
-O script [`scripts/pipeline_ingestao.py`](file:///c:/Users/jhiov/dev/yaris-agent/scripts/pipeline_ingestao.py) é responsável pela extração, divisão em chunks, marcação de metadados de setor e persistência no ChromaDB.
+O script [`scripts/pipeline_ingestao.py`](../scripts/pipeline_ingestao.py) é responsável pela extração, divisão em chunks, marcação de metadados de setor e persistência no ChromaDB.
 
 ### 3.1. Classificação Dinâmica dos 11 Setores
 
-A função `get_sector_from_filename` analisa o nome e prefixo dos arquivos na pasta [`data/`](file:///c:/Users/jhiov/dev/yaris-agent/data) para associar cada documento ao seu setor corporativo:
+A função `get_sector_from_filename` analisa o nome e prefixo dos arquivos na pasta [`data/`](../data) para associar cada documento ao seu setor corporativo:
 
 ```python
 def get_sector_from_filename(filename: str) -> str:
@@ -214,7 +214,7 @@ def get_sector_from_filename(filename: str) -> str:
         return "Loja Conceito"
     elif any(k in fn for k in ["sop-003", "sop-004", "sop-006", "logistica", "estoque", "florent", "rastreamento", "inbound"]):
         return "Operações & Logística"
-    elif any(k in fn for k in ["pol-001", "pol-002", "pol-008", "10_politica_interna"]):
+    elif any(k in fn for k in ["pol-000", "pol-001", "pol-002", "pol-008", "10_politica_interna", "missao"]):
         return "Políticas Internas"
     else:
         return "Políticas Internas"
@@ -264,7 +264,7 @@ for i in tqdm(range(0, len(chunks), batch_size)):
 
 ## 4. Banco Vetorial e Provedores de Embeddings
 
-O módulo [`src/database/connection.py`](file:///c:/Users/jhiov/dev/yaris-agent/src/database/connection.py) gerencia a conexão com o **ChromaDB** e a comutação flexível de embeddings.
+O módulo [`src/database/connection.py`](../src/database/connection.py) gerencia a conexão com o **ChromaDB** e a comutação flexível de embeddings.
 
 ### 4.1. Provedores Suportados
 
@@ -305,7 +305,7 @@ def get_retriever(k=4, sector=None):
 
 ## 5. Engenharia de Prompt & Diretrizes Corporativas
 
-O arquivo [`src/graph/prompts.py`](file:///c:/Users/jhiov/dev/yaris-agent/src/graph/prompts.py) define as diretrizes inegociáveis de comunicação da Yara Ltda.
+O arquivo [`src/graph/prompts.py`](../src/graph/prompts.py) define as diretrizes inegociáveis de comunicação da Yara Ltda.
 
 ### 5.1. Regras de Negócio Inegociáveis
 
@@ -325,13 +325,13 @@ O arquivo [`src/graph/prompts.py`](file:///c:/Users/jhiov/dev/yaris-agent/src/gr
 
 ## 6. Interface Web & Componentes Frontend (Streamlit)
 
-O arquivo [`app.py`](file:///c:/Users/jhiov/dev/yaris-agent/app.py) implementa a interface do usuário em **Streamlit** no estilo **Dark Mode Obsidian Premium** com tipografia `Plus Jakarta Sans`.
+O arquivo [`app.py`](../app.py) implementa a interface do usuário em **Streamlit** no estilo **Dark Mode Obsidian Premium** com tipografia `Plus Jakarta Sans`.
 
 ### 6.1. Funcionalidades da Interface
 
 - **Hero Banner Principal**: Cabeçalho visual em gradiente com resumo do agente.
 - **Barra Lateral Integrada**:
-  - Exibição da logo oficial do YARIS ([`assets/logo_yaris.png`](file:///c:/Users/jhiov/dev/yaris-agent/assets/logo_yaris.png)).
+  - Exibição da logo oficial do YARIS ([`assets/logo_yaris.png`](../assets/logo_yaris.png)).
   - Botão de **"Nova conversa"** para reset imediato da sessão.
   - Menu suspenso **Busca Específica por Setor** (11 Setores + Busca Global).
   - Indicador em tempo real do **Provedor e Modelo de IA** ativo.
@@ -382,12 +382,12 @@ O repositório conta com uma suíte completa de testes automatizados com **Pytes
 
 | Arquivo de Teste | Componente Testado | Descrição dos Casos de Teste |
 | :--- | :--- | :--- |
-| [`tests/test_sector_classification.py`](file:///c:/Users/jhiov/dev/yaris-agent/tests/test_sector_classification.py) | Ingestão (`scripts/pipeline_ingestao.py`) | Valida se arquivos das categorias SOP, POL, GUI e FAQ são classificados nos 11 setores corretos. |
-| [`tests/test_graph_edges.py`](file:///c:/Users/jhiov/dev/yaris-agent/tests/test_graph_edges.py) | Roteamento LangGraph (`src/graph/edges.py`) | Garante que saudações curtas acionam `"direto_llm"` e dúvidas corporativas direcionam para `"ir_para_rag"`. |
-| [`tests/test_database_aliases.py`](file:///c:/Users/jhiov/dev/yaris-agent/tests/test_database_aliases.py) | Banco Vetorial (`src/database/connection.py`) | Valida a presença e consistência dos aliases semânticos cruzados no dicionário `SECTOR_ALIASES`. |
-| [`tests/test_prompts_and_compliance.py`](file:///c:/Users/jhiov/dev/yaris-agent/tests/test_prompts_and_compliance.py) | Compliance (`src/graph/prompts.py`) | Verifica o cumprimento das diretrizes de não uso de emojis, substituição por "responsabilidade ambiental e social" e nome YARIS. |
-| [`tests/test_nodes.py`](file:///c:/Users/jhiov/dev/yaris-agent/tests/test_nodes.py) | Nó de Execução (`src/graph/nodes.py`) | Testa a função auxiliar `_format_response_content` para strings, listas e dicionários. |
-| [`tests/test_graph_build.py`](file:///c:/Users/jhiov/dev/yaris-agent/tests/test_graph_build.py) | Compilação do Grafo (`src/graph/build.py`) | Garante que o grafo do LangGraph compila corretamente com os nós e bordas requeridos. |
+| [`tests/test_sector_classification.py`](../tests/test_sector_classification.py) | Ingestão (`scripts/pipeline_ingestao.py`) | Valida se arquivos das categorias SOP, POL, GUI e FAQ são classificados nos 11 setores corretos. |
+| [`tests/test_graph_edges.py`](../tests/test_graph_edges.py) | Roteamento LangGraph (`src/graph/edges.py`) | Garante que saudações curtas acionam `"direto_llm"` e dúvidas corporativas direcionam para `"ir_para_rag"`. |
+| [`tests/test_database_aliases.py`](../tests/test_database_aliases.py) | Banco Vetorial (`src/database/connection.py`) | Valida a presença e consistência dos aliases semânticos cruzados no dicionário `SECTOR_ALIASES`. |
+| [`tests/test_prompts_and_compliance.py`](../tests/test_prompts_and_compliance.py) | Compliance (`src/graph/prompts.py`) | Verifica o cumprimento das diretrizes de não uso de emojis, substituição por "responsabilidade ambiental e social" e nome YARIS. |
+| [`tests/test_nodes.py`](../tests/test_nodes.py) | Nó de Execução (`src/graph/nodes.py`) | Testa a função auxiliar `_format_response_content` para strings, listas e dicionários. |
+| [`tests/test_graph_build.py`](../tests/test_graph_build.py) | Compilação do Grafo (`src/graph/build.py`) | Garante que o grafo do LangGraph compila corretamente com os nós e bordas requeridos. |
 
 ### 8.2. Executando a Suíte de Testes
 
@@ -414,7 +414,7 @@ Saída esperada:
 
 #### 🔴 Erro: `429 RESOURCE_EXHAUSTED` (Google API Rate Limit)
 - **Causa**: Limite da cota gratuita da API do Gemini atingido temporariamente.
-- **Solução**: O nó `chamar_llm` em [`src/graph/nodes.py`](file:///c:/Users/jhiov/dev/yaris-agent/src/graph/nodes.py) trata o erro amigavelmente. Aguarde de 15 a 30 segundos e reenvie a pergunta.
+- **Solução**: O nó `chamar_llm` em [`src/graph/nodes.py`](../src/graph/nodes.py) trata o erro amigavelmente. Aguarde de 15 a 30 segundos e reenvie a pergunta.
 
 #### 🔴 Erro: `404 NOT_FOUND` em Modelos Gemini
 - **Causa**: Nome de modelo inexistente ou descontinuado no `.env` / `src/config.py`.
@@ -432,11 +432,11 @@ Saída esperada:
 
 | Fase / Requisito | Status | Detalhes Técnicos & Evidências |
 | :--- | :---: | :--- |
-| **1. Base de Conhecimento** | ✅ Concluído | 14 documentos Markdown estruturados em SOPs, POLs, GUIs e FAQs em [`./data/`](file:///c:/Users/jhiov/dev/yaris-agent/data) categorizados em 11 setores corporativos. |
+| **1. Base de Conhecimento** | ✅ Concluído | 22 documentos Markdown estruturados em SOPs, POLs, GUIs e FAQs em [`./data/`](../data) categorizados em 11 setores corporativos. |
 | **2. Agente RAG Local & IA** | ✅ Concluído | Workflow Stateful **LangGraph**, **ChromaDB** vetorial local (`./chroma_db`), dual embeddings (Ollama / Gemini) e LLMs mistas. |
-| **3. Interface Web Conversacional** | ✅ Concluído | Interface **Streamlit** ([`app.py`](file:///c:/Users/jhiov/dev/yaris-agent/app.py)) em Dark Mode Obsidian, chips de setor, seletor de modelos em runtime e rastreabilidade de fontes. |
+| **3. Interface Web Conversacional** | ✅ Concluído | Interface **Streamlit** ([`app.py`](../app.py)) em Dark Mode Obsidian, chips de setor, seletor de modelos em runtime e rastreabilidade de fontes. |
 | **4. Implantação na Nuvem OCI** | ✅ Concluído | Instância OCI Compute (`http://163.176.89.50:8501`), serviço `systemd` (`yaris-agent.service`) e portas liberadas. |
-| **5. Documentação & GitHub** | ✅ Concluído | Repositório público com [`README.md`](file:///c:/Users/jhiov/dev/yaris-agent/README.md), [`DOCUMENTACAO_TECNICA.md`](file:///c:/Users/jhiov/dev/yaris-agent/docs/DOCUMENTACAO_TECNICA.md), [`DEPLOY_OCI.md`](file:///c:/Users/jhiov/dev/yaris-agent/docs/DEPLOY_OCI.md), diagramas Mermaid e suíte de testes unitários. |
+| **5. Documentação & GitHub** | ✅ Concluído | Repositório público com [`README.md`](../README.md), [`DOCUMENTACAO_TECNICA.md`](DOCUMENTACAO_TECNICA.md), [`DEPLOY_OCI.md`](DEPLOY_OCI.md), diagramas Mermaid e suíte de testes unitários. |
 
 ### 10.2. Análise de Atendimento dos Critérios de Avaliação
 

@@ -113,11 +113,9 @@ A arquitetura do projeto é modular e separada entre o frontend (Streamlit), o p
 
 ```
 yaris-agent/
+├── .streamlit/
+│   └── config.toml
 ├── assets/
-│   ├── evidencia_oci.png
-│   ├── evidencia_oci_2.png
-│   ├── evidencia_oci_3.png
-│   ├── fluxo_langgraph.png
 │   └── logo_yaris.png
 ├── data/
 │   ├── 01_processos_operacionais_sops/
@@ -147,7 +145,8 @@ yaris-agent/
 │       └── GUI-003_Atendimento_SAC_e_Ouvidoria.md
 ├── docs/
 │   ├── assets/
-│   │   ├── evidencia_oci_deploy.png
+│   │   ├── evidencia_deploy.png
+│   │   ├── evidencia_oci.png
 │   │   ├── evidencia_oci_chromadb.png
 │   │   ├── evidencia_oci_execucao.png
 │   │   ├── evidencia_oci_logs.png
@@ -160,26 +159,31 @@ yaris-agent/
 │   └── visualizar_grafo.py
 ├── src/
 │   ├── database/
+│   │   ├── __init__.py
 │   │   └── connection.py
 │   ├── graph/
+│   │   ├── __init__.py
 │   │   ├── build.py
 │   │   ├── edges.py
 │   │   ├── nodes.py
 │   │   ├── prompts.py
 │   │   └── state.py
+│   ├── __init__.py
 │   └── config.py
 ├── tests/
+│   ├── __init__.py
 │   ├── test_database_aliases.py
 │   ├── test_graph_build.py
 │   ├── test_graph_edges.py
 │   ├── test_nodes.py
 │   ├── test_prompts_and_compliance.py
 │   └── test_sector_classification.py
-├── .env
+├── .env.example
 ├── .gitignore
 ├── app.py
-├── requirements.txt
-└── README.md
+├── LICENSE
+├── README.md
+└── requirements.txt
 ```
 
 ---
@@ -222,8 +226,10 @@ Procedimentos passo a passo da rotina da empresa.
 | **SOP-001** | `SOP-001_Atendimento_e_Venda_Presencial.md` | Atendimento ao Cliente (SAC) | Atendimento na loja conceito do Shopping Iguatemi Brasília. |
 | **SOP-002** | `SOP-002_Operacao_Caixa_e_Emissao_NF_Omie.md` | Financeiro | Abertura/fechamento de caixa e emissão de NFC-e no Omie. |
 | **SOP-003** | `SOP-003_Logistica_Reversa_e_Trocas.md` | Operações & Logística | Código de postagem no Melhor Envio e trocas em loja. |
-| **SOP-004** | `SOP-004_Gestao_Estoque_e_Contingencia.md` | Operações & Logística | Estoque mínimo e acionamento do parceiro local (Ateliê Almada - DF). |
-| **SOP-005** | `SOP-005_Solicitacao_de_Materiais_Escritorio.md` | Facilities & Suprimentos | Requisição de papelaria ecológica no Omie e prazos de 3 a 5 dias. |
+| **SOP-004** | `SOP-004_Gestao_Estoque_e_Contingencia_Atelie_Almada.md` | Operações & Logística | Estoque mínimo e acionamento do parceiro local (Ateliê Almada - DF). |
+| **SOP-005** | `SOP-005_Solicitacao_de_Materiais_de_Escritorio_e_Papelaria.md` | Facilities & Suprimentos | Requisição de papelaria ecológica no Omie e prazos de 3 a 5 dias. |
+| **SOP-006** | `SOP-006_Rastreamento_de_Pecas_e_Fornecedores_Florent.md` | Operações & Logística | Rastreamento de lotes em trânsito, prazos de entrega e fornecedores (Florent, Ateliê Almada). |
+| **SOP-007** | `SOP-007_Suprimentos_e_Sacolas_Loja_Conceito.md` | Loja Conceito | Insumos, embalagens sustentáveis e sacolas biodegradáveis para a loja física. |
 
 ---
 
@@ -233,11 +239,14 @@ Regras corporativas, diretrizes trabalhistas e governança.
 | Código | Documento | Setor Mapeado | Descrição |
 | :--- | :--- | :--- | :--- |
 | **POL-000** | `POL-000_Missao_Visao_Valores_Yara.md` | Políticas Internas | Identidade corporativa: Missão, Visão, Valores e Diretrizes Estratégicas. |
-| **POL-001** | `POL-001_Politica_de_Moda_Sustentavel.md` | Comercial & Vendas | Homologação de tecidos biodegradáveis e compras transparentes. |
-| **POL-002** | `POL-002_Gestao_Social_e_Impacto.md` | Gestão Social & Impacto | Doação de peças e impacto comunitário no DF (Estrutural/Ceilândia). |
+| **POL-001** | `POL-001_Politica_de_Moda_Sustentavel_e_Fornecedores.md` | Comercial & Vendas | Homologação de tecidos biodegradáveis e compras transparentes. |
+| **POL-002** | `POL-002_Gestao_Social_e_Impacto_Comunitario.md` | Gestão Social & Impacto | Doação de peças e impacto comunitário no DF (Estrutural/Ceilândia). |
 | **POL-003** | `POL-003_Direitos_Trabalhistas_e_Conduta.md` | Recursos Humanos | Código de conduta, jornada CLT e igualdade de oportunidades. |
-| **POL-004** | `POL-004_Compliance_LGPD_e_Anticorrupcao.md` | Compliance & LGPD | Privacidade de dados de clientes, canal de denúncias e anticorrupção. |
-| **POL-005** | `POL-005_Beneficios_e_Banco_de_Horas.md` | Recursos Humanos | Regras do Banco de Horas, compensação em 6 meses e Plano de Saúde. |
+| **POL-004** | `POL-004_Politica_de_Compliance_LGPD_e_Anticorrupcao.md` | Compliance & LGPD | Privacidade de dados de clientes, canal de denúncias e anticorrupção. |
+| **POL-005** | `POL-005_Politica_de_Beneficios_e_Banco_de_Horas.md` | Recursos Humanos | Regras do Banco de Horas, compensação em 6 meses e Plano de Saúde. |
+| **POL-006** | `POL-006_Juridico_Contratos_e_NDAs.md` | Jurídico & Contratos | Análise contratual, celebração de NDAs, conformidade LGPD e pareceres jurídicos. |
+| **POL-007** | `POL-007_Alcadas_Comerciais_e_Comissoes.md` | Comercial & Vendas | Alçadas de desconto no salão de vendas, negociação B2B/Atacado e comissionamento. |
+| **POL-008** | `POL-008_Politicas_Internas_e_Reembolso.md` | Políticas Internas | Reembolso de despesas corporativas em viagens e alçadas de compras internas. |
 
 ---
 
@@ -248,8 +257,10 @@ Guias de integração e apoio ao colaborador.
 | :--- | :--- | :--- | :--- |
 | **GUI-001** | `GUI-001_Onboarding_Novos_Colaboradores.md` | Recursos Humanos | Guia de boas-vindas e checklist dos primeiros 7 dias. |
 | **GUI-002** | `GUI-002_Diretorio_Contatos_Ramais_Emails.md` | Recursos Humanos | Diretório oficial de ramais, e-mails e contatos por departamento. |
-| **FAQ-001** | `FAQ-001_Duvidas_Frequentes_Vendas.md` | Atendimento ao Cliente (SAC) | Respostas para dúvidas comuns sobre lavagem de tecidos e garantia. |
-| **FAQ-002** | `FAQ-002_Duvidas_Operacionais_Sistemas.md` | TI & Chamados | Resoluções de problemas no ERP Omie, impressoras e chamados de TI. |
+| **GUI-003** | `GUI-003_Atendimento_SAC_e_Ouvidoria.md` | Atendimento ao Cliente (SAC) | Padrões de atendimento SAC, prazos de resposta (SLAs) e Ouvidoria Ética. |
+| **FAQ-001** | `FAQ-001_Duvidas_Frequentes_Vendas_e_Produtos.md` | Atendimento ao Cliente (SAC) | Respostas para dúvidas comuns sobre lavagem de tecidos, garantia e vendas. |
+| **FAQ-002** | `FAQ-002_Duvidas_Operacionais_e_Sistemas.md` | TI & Chamados | Resoluções de problemas no ERP Omie, impressoras e chamados de TI. |
+| **FAQ-003** | `FAQ-003_Chamados_TI_SLAs_e_Suprimentos_Loja.md` | TI & Chamados | Abertura de chamados de TI, reset de senha, SLAs e rastreamento de suprimentos. |
 
 ---
 
